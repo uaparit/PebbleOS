@@ -19,6 +19,7 @@
 #include "resource/resource_ids.auto.h"
 #include "pbl/services/i18n/i18n.h"
 #include "shell/prefs.h"
+#include "shell/system_theme.h"
 #include "system/passert.h"
 
 #include <stdio.h>
@@ -98,10 +99,10 @@ static void draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuIndex 
   PBL_UNUSED const bool selected = (cell_index->row == data->menu_layer.selection.index.row);
   // used for a fish-eye effect in the menus, also conveniently prevents us from clipping
   // during the animation
-  GFont const title_font = fonts_get_system_font(
-      PBL_IF_RECT_ELSE(FONT_KEY_GOTHIC_24_BOLD,
-                       selected ? FONT_KEY_GOTHIC_24_BOLD : FONT_KEY_GOTHIC_18_BOLD));
-  GFont const subtitle_font = fonts_get_system_font(FONT_KEY_GOTHIC_18);
+  GFont const title_font = system_theme_get_font(
+      PBL_IF_RECT_ELSE(TextStyleFont_MenuCellTitle,
+                       selected ? TextStyleFont_MenuCellTitle : TextStyleFont_MenuCellSubtitle));
+  GFont const subtitle_font = system_theme_get_font(TextStyleFont_MenuCellSubtitle);
   menu_cell_basic_draw_custom(ctx, cell_layer, title_font, node->name, NULL, NULL, subtitle_font,
                               subtitle, bitmap, false, GTextOverflowModeTrailingEllipsis);
 }
