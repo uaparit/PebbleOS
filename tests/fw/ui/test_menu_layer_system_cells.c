@@ -516,7 +516,7 @@ void test_menu_layer_system_cells__third_party_app_keeps_platform_default(void) 
   const int16_t default_small_cell_height = menu_cell_small_cell_height();
   const int16_t default_horizontal_inset = menu_cell_basic_horizontal_inset();
   // Both test platforms default to PreferredContentSizeLarge
-  cl_assert_equal_i(default_basic_cell_height, 61);
+  cl_assert_equal_i(default_basic_cell_height, 50);
   cl_assert_equal_i(default_small_cell_height, 42);
   cl_assert_equal_i(default_horizontal_inset, 10);
 
@@ -529,7 +529,7 @@ void test_menu_layer_system_cells__third_party_app_keeps_platform_default(void) 
 
   // Positive control: a system process at the same setting does follow the content size
   s_current_task = PebbleTask_KernelMain;
-  cl_assert_equal_i(menu_cell_basic_cell_height(), 85);
+  cl_assert_equal_i(menu_cell_basic_cell_height(), 60);
 
   // Restore process identity and content size for subsequent tests
   s_current_process_id = (AppInstallId)(-1);
