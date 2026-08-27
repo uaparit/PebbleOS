@@ -45,7 +45,7 @@ static const OptionMenuStyle * const s_styles[NumPreferredContentSizes] = {
 };
 
 static const OptionMenuStyle *prv_get_style(void) {
-  return s_styles[PreferredContentSizeDefault];
+  return s_styles[system_theme_get_content_size()];
 }
 
 static uint16_t prv_get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_index,
@@ -248,7 +248,7 @@ void option_menu_configure(OptionMenu *option_menu,
 void option_menu_init(OptionMenu *option_menu) {
   *option_menu = (OptionMenu) {
     .choice = OPTION_MENU_CHOICE_NONE,
-    .title_font = system_theme_get_font_for_default_size(TextStyleFont_MenuCellTitle),
+    .title_font = system_theme_get_font(TextStyleFont_MenuCellTitle),
   };
 
   // radio button icons are enabled by default
