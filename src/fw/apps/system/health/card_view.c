@@ -8,8 +8,6 @@
 #include "sleep_summary_card.h"
 #include "hr_summary_card.h"
 
-#include "applib/app_launch_button.h"
-#include "applib/app_launch_reason.h"
 #include "applib/ui/action_button.h"
 #include "applib/ui/content_indicator.h"
 #include "applib/ui/content_indicator_private.h"
@@ -44,8 +42,6 @@ typedef struct HealthCardView {
   ContentIndicator down_indicator;
   ContentIndicator up_indicator;
   GColor select_indicator_color;
-  bool cycle_cards;
-  bool reverse_order;
 } HealthCardView;
 
 static Layer* (*s_card_view_create[CardCount])(HealthData *health_data) = {
@@ -159,20 +155,13 @@ static void prv_refresh_content_indicators(HealthCardView *health_card_view) {
                                         &health_card_view->down_arrow_layer,
                                         ContentIndicatorDirectionDown);
 
-  const bool increment_available =
-      prv_get_next_card_idx(health_card_view->current_card_index, true) < CardCount;
-  const bool is_up_visible = health_card_view->cycle_cards ||
-                             health_card_view->reverse_order || increment_available;
-  const bool is_down_visible = health_card_view->cycle_cards ||
-                               !health_card_view->reverse_order || increment_available;
-
   content_indicator_set_content_available(&health_card_view->up_indicator,
                                           ContentIndicatorDirectionUp,
-                                          is_up_visible);
+                                          true);
 
   content_indicator_set_content_available(&health_card_view->down_indicator,
                                           ContentIndicatorDirectionDown,
-                                          is_down_visible);
+                                          true);
 }
 
 static void prv_hide_content_indicators(HealthCardView *health_card_view) {
@@ -286,20 +275,13 @@ static void prv_schedule_slide_animation(HealthCardView *health_card_view,
 static void prv_up_down_click_handler(ClickRecognizerRef recognizer, void *context) {
   HealthCardView *health_card_view = context;
   const bool slide_up = (click_recognizer_get_button_id(recognizer) == BUTTON_ID_UP);
-  const bool increment_card = health_card_view->reverse_order ? !slide_up : slide_up;
   const int next_card_index =
-      prv_get_next_card_idx(health_card_view->current_card_index, increment_card);
+      prv_get_next_card_idx(health_card_view->current_card_index, slide_up);
 
   if (next_card_index < 0) {
-    if (health_card_view->cycle_cards) {
-      prv_schedule_slide_animation(health_card_view, prv_get_last_card_idx(), slide_up);
-    } else {
-      app_window_stack_pop_all(true);
-    }
+    prv_schedule_slide_animation(health_card_view, prv_get_last_card_idx(), slide_up);
   } else if (next_card_index >= CardCount) {
-    if (health_card_view->cycle_cards) {
-      prv_schedule_slide_animation(health_card_view, Card_ActivitySummary, slide_up);
-    }
+    prv_schedule_slide_animation(health_card_view, Card_ActivitySummary, slide_up);
   } else {
     // animate the cards' positions
     prv_schedule_slide_animation(health_card_view, next_card_index, slide_up);
@@ -330,22 +312,9 @@ static void prv_click_config_provider(void *context) {
 //
 
 HealthCardView *health_card_view_create(HealthData *health_data) {
-  bool directional_quick_launch = false;
-  bool reverse_order = false;
-  if (app_launch_reason() == APP_LAUNCH_QUICK_LAUNCH) {
-    const ButtonId button = app_launch_button();
-    const AppQuickLaunchAction action = app_launch_get_quick_launch_action();
-    directional_quick_launch = (button == BUTTON_ID_UP || button == BUTTON_ID_DOWN) &&
-                               (action == APP_QUICK_LAUNCH_ACTION_TAP ||
-                                action == APP_QUICK_LAUNCH_ACTION_HOLD);
-    reverse_order = directional_quick_launch && (button == BUTTON_ID_DOWN);
-  }
-
   HealthCardView *health_card_view = app_malloc_check(sizeof(HealthCardView));
   *health_card_view = (HealthCardView) {
     .health_data = health_data,
-    .cycle_cards = !directional_quick_launch,
-    .reverse_order = reverse_order,
   };
   window_init(&health_card_view->window, "Health Card View");
   window_set_user_data(&health_card_view->window, health_card_view);
