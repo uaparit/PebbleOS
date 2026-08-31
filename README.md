@@ -12,6 +12,20 @@
   <a href="https://forum.repebble.com/"><img src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fforum.repebble.com&label=forum"></a>
 </p>
 
+> **Fork note (`feat/launcher-text-size`):** personal branch by
+> [uaparit](https://github.com/uaparit), based on
+> [`v4.36.2`](https://github.com/coredevices/PebbleOS/releases/tag/v4.36.2).
+>
+> Backported from upstream `main` (not yet in the `4.36.x` release line): the "Text Size"
+> preference (Settings → Display) honoring system menus, option menus, and the PRF build fix
+> that change required.
+>
+> Added on top: the app launcher (main menu) now follows the same Text Size preference too —
+> fonts, row height, and the glance cache size scale with it, matching what the backported
+> change already does for system menus.
+>
+> See the commit history for full details.
+
 ## Resources
 
 Here's a quick summary of resources to help you find your way around:
