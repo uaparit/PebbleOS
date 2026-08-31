@@ -39,6 +39,21 @@
 >
 > See the commit history for full details.
 
+### Text Size screenshots
+
+Captured under QEMU (`qemu_emery`, same 200×228 display as `obelix`/Pebble Time 2), one column
+per Text Size setting. "Smaller"/"Default"/"Larger" are the labels shown in the Settings app;
+they map to the `PreferredContentSize` tiers `Medium`/`Large`/`ExtraLarge` (`Large` is the
+default on rectangular displays).
+
+| | Smaller (`Medium`) | Default (`Large`) | Larger (`ExtraLarge`) |
+|---|---|---|---|
+| Main menu | ![Main menu, Smaller](docs/_static/images/fork/text-size/medium-main-menu.png) | ![Main menu, Default](docs/_static/images/fork/text-size/large-main-menu.png) | ![Main menu, Larger](docs/_static/images/fork/text-size/extralarge-main-menu.png) |
+| Settings menu | ![Settings menu, Smaller](docs/_static/images/fork/text-size/medium-settings-menu.png) | ![Settings menu, Default](docs/_static/images/fork/text-size/large-settings-menu.png) | ![Settings menu, Larger](docs/_static/images/fork/text-size/extralarge-settings-menu.png) |
+| Watchfaces menu | ![Watchfaces menu, Smaller](docs/_static/images/fork/text-size/medium-watchfaces-menu.png) | ![Watchfaces menu, Default](docs/_static/images/fork/text-size/large-watchfaces-menu.png) | ![Watchfaces menu, Larger](docs/_static/images/fork/text-size/extralarge-watchfaces-menu.png) |
+| Display menu | ![Display menu, Smaller](docs/_static/images/fork/text-size/medium-display-menu.png) | ![Display menu, Default](docs/_static/images/fork/text-size/large-display-menu.png) | ![Display menu, Larger](docs/_static/images/fork/text-size/extralarge-display-menu.png) |
+| Bluetooth | ![Bluetooth, Smaller](docs/_static/images/fork/text-size/medium-bluetooth.png) | ![Bluetooth, Default](docs/_static/images/fork/text-size/large-bluetooth.png) | ![Bluetooth, Larger](docs/_static/images/fork/text-size/extralarge-bluetooth.png) |
+
 ## Resources
 
 Here's a quick summary of resources to help you find your way around:
