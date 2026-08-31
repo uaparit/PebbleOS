@@ -12,6 +12,22 @@
   <a href="https://forum.repebble.com/"><img src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fforum.repebble.com&label=forum"></a>
 </p>
 
+> **Fork note (`feat/text-size-coverage-gaps`):** personal branch by
+> [uaparit](https://github.com/uaparit), based on
+> [`v4.36.2`](https://github.com/coredevices/PebbleOS/releases/tag/v4.36.2).
+>
+> Backported from upstream `main` (not yet in the `4.36.x` release line): the "Text Size"
+> preference (Settings → Display) honoring system menus, option menus, and the PRF build fix
+> that change required.
+>
+> Added on top: closes the remaining spots that still ignored the Text Size preference —
+> - the app launcher (main menu): fonts, row height, glance cache size
+> - system-menu cell height/font aligned with the launcher's (was mismatched at "Large")
+> - the watchface picker
+> - system option menus (radio-button lists), including the Text Size picker itself
+>
+> See the commit history for full details.
+
 ## Resources
 
 Here's a quick summary of resources to help you find your way around:
