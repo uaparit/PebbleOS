@@ -12,7 +12,7 @@
   <a href="https://forum.repebble.com/"><img src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fforum.repebble.com&label=forum"></a>
 </p>
 
-> **Fork note (`4.36-plus-text-size-in-menus`):** personal daily-driver branch by
+> **Fork note (`v4.36.2-ua1.1-branch`):** personal daily-driver branch by
 > [uaparit](https://github.com/uaparit), the build actually flashed to the watch. Based on
 > [`v4.36.2`](https://github.com/coredevices/PebbleOS/releases/tag/v4.36.2).
 >
