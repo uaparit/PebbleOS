@@ -12,9 +12,13 @@
   <a href="https://forum.repebble.com/"><img src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fforum.repebble.com&label=forum"></a>
 </p>
 
-> **Fork note (`v4.36.2-ua1.1-branch`):** personal daily-driver branch by
+> **Fork note (`v4.36.2-ua-branch`):** personal daily-driver branch by
 > [uaparit](https://github.com/uaparit), the build actually flashed to the watch. Based on
-> [`v4.36.2`](https://github.com/coredevices/PebbleOS/releases/tag/v4.36.2).
+> [`v4.36.2`](https://github.com/coredevices/PebbleOS/releases/tag/v4.36.2). Released builds are
+> tagged `v4.36.2-uaX.Y` on this branch (see
+> [Releases](https://github.com/uaparit/PebbleOS/releases)) — the branch name itself doesn't
+> carry a patch number, since a new `ua` tag doesn't always mean new commits here (e.g. a
+> rebuild with a different compile flag).
 >
 > Backported from upstream `main` (not yet in the `4.36.x` release line), 7 commits by Jeff
 > Hampton that add the "Text Size" preference (Settings → Display):
