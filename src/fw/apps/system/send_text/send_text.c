@@ -344,7 +344,7 @@ static void prv_init(void) {
   } else {
     PeekLayer *peek_layer = &data->no_contacts_layer;
     peek_layer_init(peek_layer, &data->window.layer.bounds);
-    const GFont title_font = system_theme_get_font_for_default_size(TextStyleFont_Title);
+    const GFont title_font = system_theme_get_font(TextStyleFont_Title);
     peek_layer_set_title_font(peek_layer, title_font);
     TimelineResourceInfo timeline_res = {
       .res_id = TIMELINE_RESOURCE_GENERIC_WARNING,
