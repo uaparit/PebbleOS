@@ -427,13 +427,13 @@ static void prv_draw_row_cb(SettingsCallbacks *context, GContext *ctx,
       ctx->draw_state.clip_box = ctx->dest_bitmap.bounds;
 
       graphics_context_set_text_color(ctx, GColorBlack);
-      GFont font = system_theme_get_font_for_default_size(TextStyleFont_MenuCellSubtitle);
+      GFont font = system_theme_get_font(TextStyleFont_MenuCellSubtitle);
       const int16_t horizontal_inset = menu_cell_basic_horizontal_inset() * 3;
       GRect box = cell_layer->bounds;
       box.origin.x = horizontal_inset;
       box.origin.y = menu_cell_basic_cell_height() + (int16_t)9;
       box.size.w -= horizontal_inset * 2;
-      box.size.h = 83;
+      box.size.h = ctx->dest_bitmap.bounds.size.h - box.origin.y;
 
       if (!data->remote_list_head) {
         if (bt_ctl_is_airplane_mode_on()) {
