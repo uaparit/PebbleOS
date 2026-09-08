@@ -222,6 +222,10 @@ GColor shell_prefs_get_theme_highlight_color(void) {
   return GColorWhite;
 }
 
+bool shell_prefs_get_theme_dark_background(void) {
+  return false;
+}
+
 bool alerts_preferences_get_notification_alternative_design(void) {
   return false;
 }
