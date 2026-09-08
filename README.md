@@ -40,6 +40,13 @@
 > - the Health app now always cycles between cards (Steps/HR/Sleep), regardless of how it was
 >   launched — quick-launching it via a directional button used to exit to the watchface at the
 >   list boundary instead of wrapping
+> - a new Settings → Themes screen: an Accent Color picker (11 presets, plus "Invert" which
+>   tracks whatever the background is set to) and a Background switch (Light/Dark) — both apply
+>   live across every system menu (Settings, launcher, watchfaces, notifications, option menus),
+>   including already-open windows further down the navigation stack
+> - the Settings menu's icons are enabled (existing, unused-until-now firmware feature) and its
+>   main list is back to a white background by default (a stray leftover from an upstream
+>   redesign attempt that was otherwise reverted in Feb 2026)
 >
 > See the commit history for full details.
 
@@ -57,6 +64,18 @@ default on rectangular displays).
 | Watchfaces menu | ![Watchfaces menu, Smaller](docs/_static/images/fork/text-size/medium-watchfaces-menu.png) | ![Watchfaces menu, Default](docs/_static/images/fork/text-size/large-watchfaces-menu.png) | ![Watchfaces menu, Larger](docs/_static/images/fork/text-size/extralarge-watchfaces-menu.png) |
 | Display menu | ![Display menu, Smaller](docs/_static/images/fork/text-size/medium-display-menu.png) | ![Display menu, Default](docs/_static/images/fork/text-size/large-display-menu.png) | ![Display menu, Larger](docs/_static/images/fork/text-size/extralarge-display-menu.png) |
 | Bluetooth | ![Bluetooth, Smaller](docs/_static/images/fork/text-size/medium-bluetooth.png) | ![Bluetooth, Default](docs/_static/images/fork/text-size/large-bluetooth.png) | ![Bluetooth, Larger](docs/_static/images/fork/text-size/extralarge-bluetooth.png) |
+
+### Theme screenshots
+
+Also captured under QEMU (`qemu_emery`), Background × Accent Color combinations. "Invert" isn't
+a fixed hue — it always resolves to the opposite of whatever Background is set to.
+
+| | Invert | Green | Magenta |
+|---|---|---|---|
+| Main menu (Light) | ![Main menu, Light Invert](docs/_static/images/fork/theme/light-invert-main-menu.png) | ![Main menu, Light Green](docs/_static/images/fork/theme/light-green-main-menu.png) | ![Main menu, Light Magenta](docs/_static/images/fork/theme/light-magenta-main-menu.png) |
+| Settings menu (Light) | ![Settings menu, Light Invert](docs/_static/images/fork/theme/light-invert-settings.png) | ![Settings menu, Light Green](docs/_static/images/fork/theme/light-green-settings.png) | ![Settings menu, Light Magenta](docs/_static/images/fork/theme/light-magenta-settings.png) |
+| Main menu (Dark) | ![Main menu, Dark Invert](docs/_static/images/fork/theme/dark-invert-main-menu.png) | ![Main menu, Dark Green](docs/_static/images/fork/theme/dark-green-main-menu.png) | ![Main menu, Dark Magenta](docs/_static/images/fork/theme/dark-magenta-main-menu.png) |
+| Settings menu (Dark) | ![Settings menu, Dark Invert](docs/_static/images/fork/theme/dark-invert-settings.png) | ![Settings menu, Dark Green](docs/_static/images/fork/theme/dark-green-settings.png) | ![Settings menu, Dark Magenta](docs/_static/images/fork/theme/dark-magenta-settings.png) |
 
 ## Resources
 
