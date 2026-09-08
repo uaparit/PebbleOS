@@ -157,6 +157,10 @@ static void prv_window_load(Window *window) {
                              .select_click = prv_select_callback,
                              .get_separator_height = prv_get_separator_height_callback
                            });
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
+  GColor highlight_bg = shell_prefs_get_theme_highlight_color();
+  menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, &data->window);
   menu_layer_set_scroll_wrap_around(menu_layer, shell_prefs_get_menu_scroll_wrap_around_enable());
   menu_layer_set_scroll_vibe_on_wrap(
