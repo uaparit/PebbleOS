@@ -340,8 +340,12 @@ static uint8_t s_legacy_app_render_mode = 1; // Default to scaled mode
 
 #ifdef CONFIG_THEMING
 #define PREF_KEY_THEME_HIGHLIGHT_COLOR "themeHighlightColor"
+#define PREF_KEY_THEME_DARK_BACKGROUND "themeDarkBackground"
+#define PREF_KEY_THEME_HIGHLIGHT_INVERTED "themeHighlightInverted"
 
 static GColor s_theme_highlight_color = GColorVividCerulean;
+static bool s_theme_dark_background = false;
+static bool s_theme_highlight_inverted = false;
 #endif
 
 #define PREF_KEY_MENU_SCROLL_WRAP_AROUND    "menuScrollWrapAround"
@@ -926,6 +930,16 @@ static bool prv_set_s_theme_highlight_color(GColor *color) {
     return false; // Reject invalid value
   }
   s_theme_highlight_color = *color;
+  return true;
+}
+
+static bool prv_set_s_theme_dark_background(bool *dark) {
+  s_theme_dark_background = *dark;
+  return true;
+}
+
+static bool prv_set_s_theme_highlight_inverted(bool *inverted) {
+  s_theme_highlight_inverted = *inverted;
   return true;
 }
 #endif
@@ -2235,6 +2249,9 @@ void shell_prefs_set_legacy_app_render_mode(LegacyAppRenderMode mode) {
 
 GColor shell_prefs_get_theme_highlight_color(void) {
 #ifdef CONFIG_THEMING
+  if (s_theme_highlight_inverted) {
+    return s_theme_dark_background ? GColorWhite : GColorBlack;
+  }
   return s_theme_highlight_color;
 #else
   return PBL_IF_COLOR_ELSE(GColorVividCerulean, GColorBlack);
@@ -2244,6 +2261,34 @@ GColor shell_prefs_get_theme_highlight_color(void) {
 void shell_prefs_set_theme_highlight_color(GColor color) {
 #ifdef CONFIG_THEMING
   prv_pref_set(PREF_KEY_THEME_HIGHLIGHT_COLOR, &color, sizeof(GColor));
+#endif
+}
+
+bool shell_prefs_get_theme_dark_background(void) {
+#ifdef CONFIG_THEMING
+  return s_theme_dark_background;
+#else
+  return false;
+#endif
+}
+
+void shell_prefs_set_theme_dark_background(bool dark) {
+#ifdef CONFIG_THEMING
+  prv_pref_set(PREF_KEY_THEME_DARK_BACKGROUND, &dark, sizeof(dark));
+#endif
+}
+
+bool shell_prefs_get_theme_highlight_inverted(void) {
+#ifdef CONFIG_THEMING
+  return s_theme_highlight_inverted;
+#else
+  return false;
+#endif
+}
+
+void shell_prefs_set_theme_highlight_inverted(bool inverted) {
+#ifdef CONFIG_THEMING
+  prv_pref_set(PREF_KEY_THEME_HIGHLIGHT_INVERTED, &inverted, sizeof(inverted));
 #endif
 }
 
