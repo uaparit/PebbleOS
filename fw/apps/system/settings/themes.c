@@ -154,12 +154,22 @@ static void prv_background_menu_select(OptionMenu *option_menu, int selection, v
   app_window_stack_remove(&option_menu->window, true /* animated */);
 }
 
+static void prv_theme_menu_selection_will_change(OptionMenu *option_menu, uint16_t new_row,
+                                                 uint16_t old_row, void *context) {
+  if (new_row == old_row) {
+    return;
+  }
+  GColor highlight_bg = shell_prefs_get_theme_highlight_color();
+  option_menu_set_highlight_colors(option_menu, highlight_bg, gcolor_legible_over(highlight_bg));
+}
+
 static OptionMenu *prv_push_background_menu(void) {
   const char *title = i18n_noop("Background");
   static const char *s_background_names[] = { "Light", "Dark" };
   int selected = shell_prefs_get_theme_dark_background() ? 1 : 0;
   const OptionMenuCallbacks callbacks = {
     .select = prv_background_menu_select,
+    .selection_will_change = prv_theme_menu_selection_will_change,
   };
   return settings_option_menu_create(
       title, OptionMenuContentType_SingleLine, selected, &callbacks,
@@ -182,6 +192,7 @@ static OptionMenu *prv_push_top_menu(void) {
   static const char *s_top_menu_rows[] = { "Accent Color", "Background" };
   const OptionMenuCallbacks callbacks = {
     .select = prv_top_menu_select,
+    .selection_will_change = prv_theme_menu_selection_will_change,
   };
   return settings_option_menu_create(
       title, OptionMenuContentType_SingleLine, OPTION_MENU_CHOICE_NONE, &callbacks,
