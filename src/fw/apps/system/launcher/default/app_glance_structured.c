@@ -99,10 +99,7 @@ GColor launcher_app_glance_structured_get_highlight_color(
 
 static GColor prv_get_icon_tint_color(LauncherAppGlanceStructured *structured_glance) {
 #if PBL_COLOR
-  if (structured_glance->glance.is_highlighted) {
-    return GColorBlack;
-  }
-  return shell_prefs_get_theme_dark_background() ? GColorWhite : GColorBlack;
+  return launcher_app_glance_structured_get_highlight_color(structured_glance);
 #else
   return structured_glance->glance.is_highlighted ? GColorWhite : GColorBlack;
 #endif
