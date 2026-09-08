@@ -153,6 +153,8 @@ static void prv_window_load(Window *window) {
                              .select_click = prv_select_callback,
                              .get_separator_height = prv_get_separator_height_callback
                            });
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, &data->window);
@@ -200,7 +202,8 @@ static void handle_init(void) {
                                        .load = prv_window_load,
                                        .unload = prv_window_unload,
                                      });
-  window_set_background_color(window, GColorWhite);
+  window_set_background_color(window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
   app_window_stack_push(window, true);
 }
 
