@@ -176,7 +176,8 @@ static void prv_init_status_bar(StatusBarLayer *status_layer, Window *window, co
   status_bar_layer_init(status_layer);
   status_bar_layer_set_title(status_layer, text, false, false);
   status_bar_layer_set_separator_mode(status_layer, OPTION_MENU_STATUS_SEPARATOR_MODE);
-  status_bar_layer_set_colors(status_layer, GColorWhite, GColorBlack);
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  status_bar_layer_set_colors(status_layer, normal_bg, gcolor_legible_over(normal_bg));
   layer_add_child(&window->layer, status_bar_layer_get_layer(status_layer));
 }
 
@@ -273,6 +274,8 @@ static void prv_information_window_load(Window *window) {
                              .get_cell_height = prv_information_get_cell_height_callback,
                              .draw_row = prv_information_draw_row_callback,
                            });
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, &data->window);
@@ -331,6 +334,8 @@ static void prv_information_window_push(SettingsSystemData *data) {
                                               .load = prv_information_window_load,
                                               .unload = prv_information_window_unload,
                                             });
+  window_set_background_color(&data->window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
 
   app_window_stack_push(&data->window, true);
 }
@@ -622,6 +627,8 @@ static void prv_debugging_window_load(Window *window) {
                              .draw_row = prv_debugging_draw_row_callback,
                              .select_click = prv_debugging_select_callback,
                            });
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, &data->window);
@@ -647,6 +654,8 @@ static void prv_debugging_window_push(SettingsSystemData *data) {
                                               .load = prv_debugging_window_load,
                                               .unload = prv_debugging_window_unload,
                                             });
+  window_set_background_color(&data->window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
 
   app_window_stack_push(&data->window, true);
 }
@@ -1139,6 +1148,8 @@ static void prv_certification_window_load(Window *window) {
                              .draw_row = prv_certification_draw_row_callback,
                              .select_click = prv_certification_select_callback,
                            });
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, &data->window);
@@ -1179,6 +1190,8 @@ static void prv_certification_window_push(SettingsSystemData *data) {
                                               .load = prv_certification_window_load,
                                               .unload = prv_certification_window_unload,
                                             });
+  window_set_background_color(&data->window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
   app_window_stack_push(&data->window, true);
 }
 
