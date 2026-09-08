@@ -964,7 +964,8 @@ static void prv_window_load(Window *window) {
                              .select_click = prv_select_callback,
                            });
 
-  menu_layer_set_normal_colors(menu_layer, GColorWhite, GColorBlack);
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
 
@@ -980,17 +981,19 @@ static void prv_window_load(Window *window) {
   const int16_t horizontal_margin = 5;
   const GFont font = system_theme_get_font(TextStyleFont_MenuCellTitle);
   // configure text layer to be vertically aligned (15 is hacking around our poor fonts)
-  text_layer_init_with_parameters(
-      text_layer,
-      &GRect(horizontal_margin, window->layer.bounds.size.h / 2 - 15,
-             window->layer.bounds.size.w - horizontal_margin, window->layer.bounds.size.h / 2),
-      i18n_get("No notifications", data), font, GColorBlack, GColorWhite, GTextAlignmentCenter,
-      GTextOverflowModeTrailingEllipsis);
+  text_layer_init_with_parameters(text_layer,
+                                  &GRect(horizontal_margin, window->layer.bounds.size.h / 2 - 15,
+                                         window->layer.bounds.size.w - horizontal_margin,
+                                         window->layer.bounds.size.h / 2),
+                                  i18n_get("No notifications", data), font,
+                                  gcolor_legible_over(normal_bg), normal_bg,
+                                  GTextAlignmentCenter,
+                                  GTextOverflowModeTrailingEllipsis);
   layer_add_child(&window->layer, text_layer_get_layer(text_layer));
 
 #if PBL_ROUND
   GColor bg_color = GColorClear;
-  GColor fg_color = GColorBlack;
+  GColor fg_color = gcolor_legible_over(normal_bg);
 
   StatusBarLayer *status_bar = &data->status_bar_layer;
   status_bar_layer_init(status_bar);
@@ -1011,6 +1014,8 @@ static void prv_push_window(NotificationsData *data) {
                                        .appear = prv_window_appear,
                                        .disappear = prv_window_disappear,
                                      });
+  window_set_background_color(window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
 
   const bool animated = true;
   app_window_stack_push(window, animated);
