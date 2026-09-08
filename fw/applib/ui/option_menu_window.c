@@ -9,6 +9,7 @@
 #include <applib/ui/menu_text_scroll.h>
 #include <kernel/ui/kernel_ui.h>
 #include <resource/resource_ids.auto.h>
+#include <shell/prefs.h>
 #include <shell/system_theme.h>
 #include <shell/system_theme_style.h>
 
@@ -294,6 +295,8 @@ void option_menu_init(OptionMenu *option_menu) {
                                                      .load = prv_window_load,
                                                      .unload = prv_window_unload,
                                                    });
+  window_set_background_color(&option_menu->window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
 
   StatusBarLayer *status_layer = &option_menu->status_layer;
   status_bar_layer_init(status_layer);
