@@ -144,11 +144,54 @@ static OptionMenu *prv_push_color_menu(void) {
 
   return option_menu;
 }
+
+/////////////////////////////
+// Background Setting
+/////////////////////////////
+
+static void prv_background_menu_select(OptionMenu *option_menu, int selection, void *context) {
+  shell_prefs_set_theme_dark_background(selection == 1);
+  app_window_stack_remove(&option_menu->window, true /* animated */);
+}
+
+static OptionMenu *prv_push_background_menu(void) {
+  const char *title = i18n_noop("Background");
+  static const char *s_background_names[] = { "Light", "Dark" };
+  int selected = shell_prefs_get_theme_dark_background() ? 1 : 0;
+  const OptionMenuCallbacks callbacks = {
+    .select = prv_background_menu_select,
+  };
+  return settings_option_menu_create(
+      title, OptionMenuContentType_SingleLine, selected, &callbacks,
+      ARRAY_LENGTH(s_background_names), true /* icons_enabled */, s_background_names, NULL);
+}
+
+/////////////////////////////
+// Themes Top Menu
+/////////////////////////////
+
+static void prv_top_menu_select(OptionMenu *option_menu, int selection, void *context) {
+  OptionMenu *next_menu = (selection == 0) ? prv_push_color_menu() : prv_push_background_menu();
+  if (next_menu) {
+    app_window_stack_push(&next_menu->window, true /* animated */);
+  }
+}
+
+static OptionMenu *prv_push_top_menu(void) {
+  const char *title = i18n_noop("Themes");
+  static const char *s_top_menu_rows[] = { "Accent Color", "Background" };
+  const OptionMenuCallbacks callbacks = {
+    .select = prv_top_menu_select,
+  };
+  return settings_option_menu_create(
+      title, OptionMenuContentType_SingleLine, OPTION_MENU_CHOICE_NONE, &callbacks,
+      ARRAY_LENGTH(s_top_menu_rows), false /* icons_enabled */, s_top_menu_rows, NULL);
+}
 #endif // CONFIG_THEMING
 
-static Window *prv_create_color_menu(void) {
+static Window *prv_create_top_menu(void) {
 #ifdef CONFIG_THEMING
-  OptionMenu *option_menu = prv_push_color_menu();
+  OptionMenu *option_menu = prv_push_top_menu();
   return option_menu ? &option_menu->window : NULL;
 #else
   WTF;
@@ -157,7 +200,7 @@ static Window *prv_create_color_menu(void) {
 }
 
 static Window *prv_init(void) {
-  return prv_create_color_menu();
+  return prv_create_top_menu();
 }
 
 const SettingsModuleMetadata *settings_themes_get_info(void) {
