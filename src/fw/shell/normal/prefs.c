@@ -2258,9 +2258,23 @@ GColor shell_prefs_get_theme_highlight_color(void) {
 #endif
 }
 
+#ifdef CONFIG_THEMING
+static void prv_notify_theme_pref_changed(void) {
+  PebbleEvent pref_event = {
+    .type = PEBBLE_PREF_CHANGE_EVENT,
+    .pref_change = {
+      .key = PREF_KEY_THEME_HIGHLIGHT_COLOR,
+      .key_len = sizeof(PREF_KEY_THEME_HIGHLIGHT_COLOR),
+    },
+  };
+  event_put(&pref_event);
+}
+#endif
+
 void shell_prefs_set_theme_highlight_color(GColor color) {
 #ifdef CONFIG_THEMING
   prv_pref_set(PREF_KEY_THEME_HIGHLIGHT_COLOR, &color, sizeof(GColor));
+  prv_notify_theme_pref_changed();
 #endif
 }
 
@@ -2275,6 +2289,7 @@ bool shell_prefs_get_theme_dark_background(void) {
 void shell_prefs_set_theme_dark_background(bool dark) {
 #ifdef CONFIG_THEMING
   prv_pref_set(PREF_KEY_THEME_DARK_BACKGROUND, &dark, sizeof(dark));
+  prv_notify_theme_pref_changed();
 #endif
 }
 
@@ -2289,6 +2304,7 @@ bool shell_prefs_get_theme_highlight_inverted(void) {
 void shell_prefs_set_theme_highlight_inverted(bool inverted) {
 #ifdef CONFIG_THEMING
   prv_pref_set(PREF_KEY_THEME_HIGHLIGHT_INVERTED, &inverted, sizeof(inverted));
+  prv_notify_theme_pref_changed();
 #endif
 }
 
