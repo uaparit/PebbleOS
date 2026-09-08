@@ -178,19 +178,21 @@ void quick_launch_app_menu_window_push(ButtonId button, bool is_tap,
   const uint16_t app_index =
       app_menu_data_source_get_index_of_app_with_install_id(&data->data_source, install_id);
 
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   const OptionMenuConfig config = {
     .title = i18n_get(s_category_titles[category], data),
     .choice = prv_choice(install_id, app_index),
     .status_colors =
         {
-          GColorWhite,
-          GColorBlack,
+          normal_bg,
+          gcolor_legible_over(normal_bg),
         },
     .highlight_colors = {highlight_bg, gcolor_legible_over(highlight_bg)},
     .icons_enabled = true,
   };
   option_menu_configure(option_menu, &config);
+  option_menu_set_normal_colors(option_menu, normal_bg, gcolor_legible_over(normal_bg));
   option_menu_set_callbacks(option_menu,
                             &(OptionMenuCallbacks){
                               .select = prv_menu_select,
