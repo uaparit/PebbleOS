@@ -152,6 +152,8 @@ static void prv_window_load(Window *window) {
         .draw_row = (MenuLayerDrawRowCallback)draw_row_callback,
         .select_click = (MenuLayerSelectCallback)select_callback,
       });
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  menu_layer_set_normal_colors(&data->menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(&data->menu_layer, highlight_bg,
                                   gcolor_legible_over(highlight_bg));
@@ -186,6 +188,8 @@ static void handle_init(void) {
                                        .appear = prv_window_appear,
                                        .unload = prv_window_unload,
                                      });
+  window_set_background_color(window,
+                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
   const bool animated = true;
   app_window_stack_push(window, animated);
 }
