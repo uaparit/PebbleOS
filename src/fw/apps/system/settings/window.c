@@ -49,6 +49,9 @@ static void prv_pref_change_handler(PebbleEvent *event, void *context) {
   // Reload the menu when any pref changes: cell heights are cached by the menu
   // layer and can change with the preferred content size. Re-anchor the
   // selection afterwards so the scroll offset stays within the new geometry.
+  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  window_set_background_color(&data->window, normal_bg);
+  status_bar_layer_set_colors(&data->status_layer, normal_bg, gcolor_legible_over(normal_bg));
   menu_layer_reload_data(&data->menu_layer);
   menu_layer_set_selected_index(&data->menu_layer, menu_layer_get_selected_index(&data->menu_layer),
                                 MenuRowAlignCenter, false /* animated */);
