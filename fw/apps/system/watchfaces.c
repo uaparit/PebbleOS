@@ -159,8 +159,9 @@ static void prv_window_load(Window *window) {
         .draw_row = (MenuLayerDrawRowCallback)draw_row_callback,
         .select_click = (MenuLayerSelectCallback)select_callback,
       });
-  menu_layer_set_highlight_colors(&data->menu_layer,
-                                  PBL_IF_COLOR_ELSE(GColorJazzberryJam, GColorBlack), GColorWhite);
+  GColor highlight_bg = shell_prefs_get_theme_highlight_color();
+  menu_layer_set_highlight_colors(&data->menu_layer, highlight_bg,
+                                  gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, window);
   menu_layer_set_scroll_wrap_around(menu_layer, shell_prefs_get_menu_scroll_wrap_around_enable());
   menu_layer_set_scroll_vibe_on_wrap(
