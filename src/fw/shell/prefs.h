@@ -266,6 +266,9 @@ void shell_prefs_set_theme_highlight_inverted(bool inverted);
 bool shell_prefs_get_menu_scroll_wrap_around_enable(void);
 void shell_prefs_set_menu_scroll_wrap_around_enable(bool enable);
 
+bool shell_prefs_get_menu_subtitle_bold(void);
+void shell_prefs_set_menu_subtitle_bold(bool bold);
+
 typedef enum MenuScrollVibeBehavior {
   MenuScrollNoVibe,
   MenuScrollVibeOnWrapAround,

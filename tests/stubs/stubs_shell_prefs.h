@@ -97,3 +97,13 @@ void WEAK shell_prefs_set_theme_dark_background(bool dark) {
 GColor WEAK shell_prefs_get_theme_normal_background(void) {
   return s_theme_dark_background ? GColorBlack : GColorWhite;
 }
+
+static bool s_menu_subtitle_bold = false;
+
+bool WEAK shell_prefs_get_menu_subtitle_bold(void) {
+  return s_menu_subtitle_bold;
+}
+
+void WEAK shell_prefs_set_menu_subtitle_bold(bool bold) {
+  s_menu_subtitle_bold = bold;
+}
