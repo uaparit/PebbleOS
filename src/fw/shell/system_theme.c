@@ -164,7 +164,10 @@ static const char *s_menu_cell_subtitle_bold_fonts[NumPreferredContentSizes] = {
 
 GFont system_theme_get_font(TextStyleFont font) {
   if (font == TextStyleFont_MenuCellSubtitle && shell_prefs_get_menu_subtitle_bold()) {
-    return fonts_get_system_font(s_menu_cell_subtitle_bold_fonts[system_theme_get_content_size()]);
+    const PreferredContentSize content_size = system_theme_get_content_size();
+    if (content_size < NumPreferredContentSizes) {
+      return fonts_get_system_font(s_menu_cell_subtitle_bold_fonts[content_size]);
+    }
   }
   return fonts_get_system_font(system_theme_get_font_key(font));
 }
