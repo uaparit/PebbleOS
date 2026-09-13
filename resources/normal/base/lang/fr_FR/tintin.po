@@ -1720,9 +1720,69 @@ msgstr "Éteindre la montre ?"
 msgid "System"
 msgstr "Système"
 
+#: ../src/fw/apps/system/settings/themes.c:31
+msgid "Default"
+msgstr "Normal"
+
+#: ../src/fw/apps/system/settings/themes.c:32
+msgid "Invert"
+msgstr "Inverser"
+
+#: ../src/fw/apps/system/settings/themes.c:33
+msgid "Red"
+msgstr "Rouge"
+
+#: ../src/fw/apps/system/settings/themes.c:34
+msgid "Orange"
+msgstr "Orange"
+
+#: ../src/fw/apps/system/settings/themes.c:35
+msgid "Yellow"
+msgstr "Jaune"
+
+#: ../src/fw/apps/system/settings/themes.c:36
+msgid "Green"
+msgstr "Vert"
+
+#: ../src/fw/apps/system/settings/themes.c:37
+msgid "Cyan"
+msgstr "Cyan"
+
+#: ../src/fw/apps/system/settings/themes.c:38
+msgid "Light Blue"
+msgstr "Bleu clair"
+
+#: ../src/fw/apps/system/settings/themes.c:39
+msgid "Royal Blue"
+msgstr "Bleu roi"
+
+#: ../src/fw/apps/system/settings/themes.c:40
+msgid "Purple"
+msgstr "Violet"
+
+#: ../src/fw/apps/system/settings/themes.c:41
+msgid "Magenta"
+msgstr "Magenta"
+
+#: ../src/fw/apps/system/settings/themes.c:42
+msgid "Pink"
+msgstr "Rose"
+
 #: ../src/fw/apps/system/settings/themes.c:107
 msgid "Accent Color"
 msgstr "Couleur d’accent"
+
+#: ../src/fw/apps/system/settings/themes.c:178
+msgid "Background"
+msgstr "Arrière-plan"
+
+#: ../src/fw/apps/system/settings/themes.c:179
+msgid "Light"
+msgstr "Clair"
+
+#: ../src/fw/apps/system/settings/themes.c:179
+msgid "Dark"
+msgstr "Sombre"
 
 #. / Title of the Themes Settings submenu in Settings
 #: ../src/fw/apps/system/settings/themes.c:156
@@ -3505,9 +3565,6 @@ msgstr "Marteau piqueur"
 #: ../src/fw/services/vibes/vibes.def:15
 msgid "Gentle"
 msgstr "Doux"
-
-#~ msgid "Default"
-#~ msgstr "Normal"
 
 #~ msgid "Scaled"
 #~ msgstr "Redimensionné"

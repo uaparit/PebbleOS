@@ -1726,9 +1726,69 @@ msgstr "Ausschalten?"
 msgid "System"
 msgstr "System"
 
+#: ../src/fw/apps/system/settings/themes.c:31
+msgid "Default"
+msgstr "Standard"
+
+#: ../src/fw/apps/system/settings/themes.c:32
+msgid "Invert"
+msgstr "Invertieren"
+
+#: ../src/fw/apps/system/settings/themes.c:33
+msgid "Red"
+msgstr "Rot"
+
+#: ../src/fw/apps/system/settings/themes.c:34
+msgid "Orange"
+msgstr "Orange"
+
+#: ../src/fw/apps/system/settings/themes.c:35
+msgid "Yellow"
+msgstr "Gelb"
+
+#: ../src/fw/apps/system/settings/themes.c:36
+msgid "Green"
+msgstr "Grün"
+
+#: ../src/fw/apps/system/settings/themes.c:37
+msgid "Cyan"
+msgstr "Cyan"
+
+#: ../src/fw/apps/system/settings/themes.c:38
+msgid "Light Blue"
+msgstr "Hellblau"
+
+#: ../src/fw/apps/system/settings/themes.c:39
+msgid "Royal Blue"
+msgstr "Königsblau"
+
+#: ../src/fw/apps/system/settings/themes.c:40
+msgid "Purple"
+msgstr "Lila"
+
+#: ../src/fw/apps/system/settings/themes.c:41
+msgid "Magenta"
+msgstr "Magenta"
+
+#: ../src/fw/apps/system/settings/themes.c:42
+msgid "Pink"
+msgstr "Pink"
+
 #: ../src/fw/apps/system/settings/themes.c:107
 msgid "Accent Color"
 msgstr "Akzentfarbe"
+
+#: ../src/fw/apps/system/settings/themes.c:178
+msgid "Background"
+msgstr "Hintergrund"
+
+#: ../src/fw/apps/system/settings/themes.c:179
+msgid "Light"
+msgstr "Hell"
+
+#: ../src/fw/apps/system/settings/themes.c:179
+msgid "Dark"
+msgstr "Dunkel"
 
 #. / Title of the Themes Settings submenu in Settings
 #: ../src/fw/apps/system/settings/themes.c:156
@@ -3458,9 +3518,6 @@ msgstr "Presslufthammer"
 #: ../src/fw/services/vibes/vibes.def:15
 msgid "Gentle"
 msgstr "Sanft"
-
-#~ msgid "Default"
-#~ msgstr "Standard"
 
 #~ msgid "Scaled"
 #~ msgstr "Skaliert"
