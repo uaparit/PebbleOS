@@ -651,7 +651,7 @@ static void prv_display_select_click_cb(SettingsCallbacks *context, uint16_t row
       break;
     case SettingsDisplayBoldSubtitles:
       shell_prefs_set_menu_subtitle_bold(!shell_prefs_get_menu_subtitle_bold());
-      break;
+      return;
     case SettingsDisplayLanguage:
       prv_language_menu_push((SettingsDisplayData *)context);
       break;
