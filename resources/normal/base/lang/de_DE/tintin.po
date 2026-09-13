@@ -1259,6 +1259,10 @@ msgstr "Alte Apps"
 msgid "Display"
 msgstr "Anzeige"
 
+#: ../src/fw/apps/system/settings/display.c:709
+msgid "Bold Subtitles"
+msgstr "Fette Untertitel"
+
 #: ../src/fw/apps/system/settings/factory_reset.c:111
 msgid "Perform factory reset?"
 msgstr ""

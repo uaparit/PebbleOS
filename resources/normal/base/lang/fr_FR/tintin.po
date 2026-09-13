@@ -1255,6 +1255,10 @@ msgstr "Apps anciennes"
 msgid "Display"
 msgstr "Affichage"
 
+#: ../src/fw/apps/system/settings/display.c:709
+msgid "Bold Subtitles"
+msgstr "Sous-titres en gras"
+
 #: ../src/fw/apps/system/settings/factory_reset.c:111
 msgid "Perform factory reset?"
 msgstr "Réinitialiser ?"
