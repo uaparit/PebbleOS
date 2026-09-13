@@ -421,7 +421,7 @@ static void prv_draw_hint(GContext *ctx, SettingsBluetoothData *data, const GRec
                           int16_t hint_height, GFont font) {
   const GRect hint_bounds = GRect(cell_bounds->origin.x, cell_bounds->size.h - hint_height,
                                   cell_bounds->size.w, hint_height);
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   graphics_context_set_fill_color(ctx, normal_bg);
   graphics_fill_rect(ctx, &hint_bounds);
 
