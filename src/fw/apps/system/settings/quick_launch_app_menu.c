@@ -178,7 +178,7 @@ void quick_launch_app_menu_window_push(ButtonId button, bool is_tap,
   const uint16_t app_index =
       app_menu_data_source_get_index_of_app_with_install_id(&data->data_source, install_id);
 
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   const OptionMenuConfig config = {
     .title = i18n_get(s_category_titles[category], data),
