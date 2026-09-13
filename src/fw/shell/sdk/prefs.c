@@ -319,6 +319,14 @@ void shell_prefs_set_menu_scroll_wrap_around_enable(bool enable) {
   // Not used in SDK shell
 }
 
+bool shell_prefs_get_menu_subtitle_bold(void) {
+  return false;
+}
+
+void shell_prefs_set_menu_subtitle_bold(bool bold) {
+  // Not used in SDK shell
+}
+
 MenuScrollVibeBehavior shell_prefs_get_menu_scroll_vibe_behavior(void) {
   return MenuScrollNoVibe;
 }

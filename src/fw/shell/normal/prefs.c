@@ -317,11 +317,13 @@ static GColor s_theme_highlight_color = GColorVividCerulean;
 
 #define PREF_KEY_MENU_SCROLL_WRAP_AROUND "menuScrollWrapAround"
 #define PREF_KEY_MENU_SCROLL_VIBE_BEHAVIOR "menuScrollVibeBehavior"
+#define PREF_KEY_MENU_SUBTITLE_BOLD "menuSubtitleBold"
 #define PREF_KEY_MUSIC_SHOW_VOLUME_CONTROLS "musicShowVolumeControls"
 #define PREF_KEY_MUSIC_SHOW_PROGRESS_BAR "musicShowProgressBar"
 #define PREF_KEY_MUSIC_SHOW_ALBUM_ART "musicShowAlbumArt"
 
 static bool s_menu_scroll_wrap_around = false;
+static bool s_menu_subtitle_bold = false;
 static MenuScrollVibeBehavior s_menu_scroll_vibe_behavior = MenuScrollNoVibe;
 static bool s_music_show_volume_controls = true;
 static bool s_music_show_progress_bar = true;
@@ -864,6 +866,11 @@ static bool prv_set_s_theme_highlight_color(GColor *color) {
 
 static bool prv_set_s_menu_scroll_wrap_around(bool *enabled) {
   s_menu_scroll_wrap_around = *enabled;
+  return true;
+}
+
+static bool prv_set_s_menu_subtitle_bold(bool *bold) {
+  s_menu_subtitle_bold = *bold;
   return true;
 }
 
@@ -2144,6 +2151,22 @@ bool shell_prefs_get_menu_scroll_wrap_around_enable(void) {
 
 void shell_prefs_set_menu_scroll_wrap_around_enable(bool enable) {
   prv_pref_set(PREF_KEY_MENU_SCROLL_WRAP_AROUND, &enable, sizeof(bool));
+}
+
+bool shell_prefs_get_menu_subtitle_bold(void) {
+  return s_menu_subtitle_bold;
+}
+
+void shell_prefs_set_menu_subtitle_bold(bool bold) {
+  prv_pref_set(PREF_KEY_MENU_SUBTITLE_BOLD, &bold, sizeof(bold));
+  PebbleEvent pref_event = {
+    .type = PEBBLE_PREF_CHANGE_EVENT,
+    .pref_change = {
+      .key = PREF_KEY_MENU_SUBTITLE_BOLD,
+      .key_len = sizeof(PREF_KEY_MENU_SUBTITLE_BOLD),
+    },
+  };
+  event_put(&pref_event);
 }
 
 MenuScrollVibeBehavior shell_prefs_get_menu_scroll_vibe_behavior(void) {
