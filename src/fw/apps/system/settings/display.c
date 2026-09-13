@@ -585,6 +585,7 @@ enum SettingsDisplayItem {
   SettingsDisplayOrientation,
 #endif
   SettingsDisplayTextSize,
+  SettingsDisplayBoldSubtitles,
   SettingsDisplayLanguage,
 #ifdef CONFIG_APP_SCALING
   SettingsDisplayLegacyAppMode,
@@ -648,6 +649,9 @@ static void prv_display_select_click_cb(SettingsCallbacks *context, uint16_t row
     case SettingsDisplayTextSize:
       prv_text_size_menu_push((SettingsDisplayData *)context);
       break;
+    case SettingsDisplayBoldSubtitles:
+      shell_prefs_set_menu_subtitle_bold(!shell_prefs_get_menu_subtitle_bold());
+      break;
     case SettingsDisplayLanguage:
       prv_language_menu_push((SettingsDisplayData *)context);
       break;
@@ -701,6 +705,10 @@ static void prv_display_draw_row_cb(SettingsCallbacks *context, GContext *ctx,
       subtitle = (index < SettingsContentSizeCount) ? s_text_size_names[index] : "";
       break;
     }
+    case SettingsDisplayBoldSubtitles:
+      title = i18n_noop("Bold Subtitles");
+      subtitle = shell_prefs_get_menu_subtitle_bold() ? i18n_noop("On") : i18n_noop("Off");
+      break;
     case SettingsDisplayLanguage:
       title = i18n_noop("Language");
       subtitle = i18n_get_lang_name();
