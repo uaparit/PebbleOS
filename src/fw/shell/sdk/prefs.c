@@ -302,6 +302,10 @@ void shell_prefs_set_theme_dark_background(bool dark) {
   // Not used in SDK shell
 }
 
+GColor shell_prefs_get_theme_normal_background(void) {
+  return GColorWhite;
+}
+
 bool shell_prefs_get_theme_highlight_inverted(void) {
   return false;
 }

@@ -240,7 +240,7 @@ static Window *prv_init(void) {
   option_menu_init(&data->option_menu);
   // Not using option_menu_configure because prv_reload_menu_data already sets
   // icons_enabled and chosen row index
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   option_menu_set_status_colors(&data->option_menu, normal_bg, gcolor_legible_over(normal_bg));
   option_menu_set_normal_colors(&data->option_menu, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();

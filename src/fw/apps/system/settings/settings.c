@@ -61,7 +61,7 @@ static void prv_pref_change_handler(PebbleEvent *event, void *context) {
   // layer and can change with the preferred content size. Re-anchor the
   // selection afterwards so the scroll offset stays within the new geometry.
   window_set_background_color(&data->window,
-                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
+                              shell_prefs_get_theme_normal_background());
   menu_layer_reload_data(&data->menu_layer);
   menu_layer_set_selected_index(&data->menu_layer,
                                 menu_layer_get_selected_index(&data->menu_layer),
@@ -81,7 +81,7 @@ static void prv_draw_row_callback(GContext *ctx, const Layer *cell_layer,
 
   const char *category_title = settings_menu_get_submodule_info(cell_index->row)->name;
   const char *title = i18n_get(category_title, data);
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   menu_layer_set_normal_colors(&(data->menu_layer), normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(&(data->menu_layer),
@@ -158,7 +158,7 @@ static void prv_window_load(Window *window) {
     .select_click = prv_select_callback,
     .get_separator_height = prv_get_separator_height_callback
   });
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
@@ -206,7 +206,7 @@ static void handle_init(void) {
     .unload = prv_window_unload,
   });
   window_set_background_color(window,
-                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
+                              shell_prefs_get_theme_normal_background());
   app_window_stack_push(window, true);
 }
 

@@ -267,7 +267,7 @@ void launcher_menu_layer_init(LauncherMenuLayer *launcher_menu_layer,
 
   MenuLayer *menu_layer = &launcher_menu_layer->menu_layer;
   menu_layer_init(menu_layer, &menu_layer_frame);
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer,

@@ -37,7 +37,7 @@ OptionMenu *settings_option_menu_create(
   if (!option_menu) {
     return NULL;
   }
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   const OptionMenuConfig config = {
     .title = i18n_get(i18n_title_key, option_menu),

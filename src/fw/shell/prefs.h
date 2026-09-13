@@ -258,6 +258,8 @@ void shell_prefs_set_theme_highlight_color(GColor color);
 bool shell_prefs_get_theme_dark_background(void);
 void shell_prefs_set_theme_dark_background(bool dark);
 
+GColor shell_prefs_get_theme_normal_background(void);
+
 bool shell_prefs_get_theme_highlight_inverted(void);
 void shell_prefs_set_theme_highlight_inverted(bool inverted);
 

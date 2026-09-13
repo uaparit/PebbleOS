@@ -93,3 +93,7 @@ bool WEAK shell_prefs_get_theme_dark_background(void) {
 void WEAK shell_prefs_set_theme_dark_background(bool dark) {
   s_theme_dark_background = dark;
 }
+
+GColor WEAK shell_prefs_get_theme_normal_background(void) {
+  return s_theme_dark_background ? GColorBlack : GColorWhite;
+}

@@ -176,7 +176,7 @@ static void prv_window_load(Window *window) {
 
 static void prv_window_appear(Window *window) {
   OptionMenu *option_menu = window_get_user_data(window);
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   option_menu_set_normal_colors(option_menu, normal_bg, gcolor_legible_over(normal_bg));
   window_set_background_color(window, normal_bg);
 

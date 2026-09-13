@@ -67,7 +67,7 @@ static void prv_pref_change_handler(PebbleEvent *event, void *context) {
   // Reload the menu when any pref changes: cell heights are cached by the menu
   // layer and can change with the preferred content size. Re-anchor the
   // selection afterwards so the scroll offset stays within the new geometry.
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   window_set_background_color(&data->window, normal_bg);
   status_bar_layer_set_colors(&data->status_layer, normal_bg, gcolor_legible_over(normal_bg));
   menu_layer_reload_data(&data->menu_layer);
@@ -93,7 +93,7 @@ static void prv_set_sub_menu_colors(GContext *ctx, const Layer *cell_layer, bool
     graphics_context_set_fill_color(ctx, highlight_bg);
     graphics_context_set_text_color(ctx, gcolor_legible_over(highlight_bg));
   } else {
-    GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+    GColor normal_bg = shell_prefs_get_theme_normal_background();
     graphics_context_set_fill_color(ctx, normal_bg);
     graphics_context_set_text_color(ctx, gcolor_legible_over(normal_bg));
   }
@@ -192,7 +192,7 @@ static void prv_settings_window_load(Window *window) {
       ? data->title_override
       : settings_menu_get_status_name(data->current_category);
   status_bar_layer_set_title(status_layer, i18n_get(title, data), false, false);
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   status_bar_layer_set_colors(status_layer, normal_bg, gcolor_legible_over(normal_bg));
   status_bar_layer_set_separator_mode(status_layer, OPTION_MENU_STATUS_SEPARATOR_MODE);
   layer_add_child(&data->window.layer, status_bar_layer_get_layer(status_layer));
@@ -292,7 +292,7 @@ static Window *prv_create(SettingsMenuItem category, const char *title_override,
     .unload = prv_settings_window_unload,
   });
   window_set_background_color(&data->window,
-                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
+                              shell_prefs_get_theme_normal_background());
 
   return &data->window;
 }

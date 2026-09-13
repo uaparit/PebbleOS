@@ -92,7 +92,7 @@ GColor launcher_app_glance_structured_get_highlight_color(
     GColor highlight_bg = shell_prefs_get_theme_highlight_color();
     return gcolor_legible_over(highlight_bg);
   } else {
-    GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+    GColor normal_bg = shell_prefs_get_theme_normal_background();
     return gcolor_legible_over(normal_bg);
   }
 #else

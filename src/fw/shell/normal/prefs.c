@@ -2184,6 +2184,10 @@ void shell_prefs_set_theme_dark_background(bool dark) {
 #endif
 }
 
+GColor shell_prefs_get_theme_normal_background(void) {
+  return shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+}
+
 bool shell_prefs_get_theme_highlight_inverted(void) {
 #ifdef CONFIG_THEMING
   return s_theme_highlight_inverted;

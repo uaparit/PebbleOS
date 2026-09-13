@@ -710,7 +710,7 @@ static void prv_window_load(Window *window) {
       .select_click = prv_select_callback,
   });
 
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
@@ -759,7 +759,7 @@ static void prv_push_window(NotificationsData *data) {
     .disappear = prv_window_disappear,
   });
   window_set_background_color(window,
-                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
+                              shell_prefs_get_theme_normal_background());
 
   const bool animated = true;
   app_window_stack_push(window, animated);

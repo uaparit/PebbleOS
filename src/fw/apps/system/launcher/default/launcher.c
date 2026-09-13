@@ -143,7 +143,7 @@ static void prv_launcher_menu_window_push(void) {
     .unload = prv_window_unload,
   });
   window_set_background_color(window,
-                              shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite);
+                              shell_prefs_get_theme_normal_background());
 
   const bool animated = false;
   app_window_stack_push(window, animated);

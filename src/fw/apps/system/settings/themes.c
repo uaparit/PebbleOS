@@ -104,7 +104,7 @@ static void prv_option_menu_selection_will_change(OptionMenu *option_menu,
   if (new_row == old_row) {
     return;
   }
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   option_menu_set_status_colors(option_menu, normal_bg, gcolor_legible_over(normal_bg));
   if (new_row == INVERT_ENTRY_INDEX) {
     GColor color = shell_prefs_get_theme_dark_background() ? GColorWhite : GColorBlack;
@@ -168,7 +168,7 @@ static void prv_theme_menu_selection_will_change(OptionMenu *option_menu, uint16
   if (new_row == old_row) {
     return;
   }
-  GColor normal_bg = shell_prefs_get_theme_dark_background() ? GColorBlack : GColorWhite;
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   option_menu_set_status_colors(option_menu, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   option_menu_set_highlight_colors(option_menu, highlight_bg, gcolor_legible_over(highlight_bg));
