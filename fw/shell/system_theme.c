@@ -5,6 +5,7 @@
 
 #include "applib/fonts/fonts.h"
 #include "process_management/process_manager.h"
+#include "shell/prefs.h"
 #include "syscall/syscall_internal.h"
 #include "system/passert.h"
 #include "pbl/util/size.h"
