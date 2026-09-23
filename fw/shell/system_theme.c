@@ -14,6 +14,7 @@
 
 #include <applib/fonts/fonts.h>
 #include <process_management/process_manager.h>
+#include <shell/prefs.h>
 
 ////////////////////
 // Helpers
