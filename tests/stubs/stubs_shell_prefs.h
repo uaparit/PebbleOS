@@ -86,14 +86,14 @@ void PBL_WEAK shell_prefs_set_menu_scroll_vibe_behavior(MenuScrollVibeBehavior b
 
 static bool s_theme_dark_background = false;
 
-bool WEAK shell_prefs_get_theme_dark_background(void) {
+bool PBL_WEAK shell_prefs_get_theme_dark_background(void) {
   return s_theme_dark_background;
 }
 
-void WEAK shell_prefs_set_theme_dark_background(bool dark) {
+void PBL_WEAK shell_prefs_set_theme_dark_background(bool dark) {
   s_theme_dark_background = dark;
 }
 
-GColor WEAK shell_prefs_get_theme_normal_background(void) {
+GColor PBL_WEAK shell_prefs_get_theme_normal_background(void) {
   return s_theme_dark_background ? GColorBlack : GColorWhite;
 }
