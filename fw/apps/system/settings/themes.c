@@ -193,7 +193,7 @@ static void prv_top_menu_select(OptionMenu *option_menu, int selection, void *co
 
 static OptionMenu *prv_push_top_menu(void) {
   const char *title = i18n_noop("Themes");
-  static const char *s_top_menu_rows[] = { "Accent Color", "Background" };
+  static const char *s_top_menu_rows[] = { i18n_noop("Accent Color"), i18n_noop("Background") };
   const OptionMenuCallbacks callbacks = {
     .select = prv_top_menu_select,
     .selection_will_change = prv_theme_menu_selection_will_change,
