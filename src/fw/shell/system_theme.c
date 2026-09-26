@@ -83,7 +83,7 @@ static const SystemThemeTextStyle s_text_styles[NumPreferredContentSizes] = {
               [TextStyleFont_Caption] = FONT_KEY_GOTHIC_18,
               [TextStyleFont_Footer] = FONT_KEY_GOTHIC_18,
               [TextStyleFont_MenuCellTitle] = FONT_KEY_GOTHIC_24_BOLD,
-              [TextStyleFont_MenuCellSubtitle] = FONT_KEY_GOTHIC_18,
+              [TextStyleFont_MenuCellSubtitle] = FONT_KEY_GOTHIC_24,
 #if !defined(CONFIG_RECOVERY_FW)
               [TextStyleFont_TimeHeaderNumbers] = FONT_KEY_LECO_26_BOLD_NUMBERS_AM_PM,
 #endif
@@ -104,7 +104,7 @@ static const SystemThemeTextStyle s_text_styles[NumPreferredContentSizes] = {
       [TextStyleFont_Caption] = FONT_KEY_GOTHIC_24,
       [TextStyleFont_Footer] = FONT_KEY_GOTHIC_24,
       [TextStyleFont_MenuCellTitle] = FONT_KEY_GOTHIC_28_BOLD,
-      [TextStyleFont_MenuCellSubtitle] = FONT_KEY_GOTHIC_24,
+      [TextStyleFont_MenuCellSubtitle] = FONT_KEY_GOTHIC_28,
 #if !defined(CONFIG_RECOVERY_FW)
       //! @note this is the same as Large until ExtraLarge is designed
       [TextStyleFont_TimeHeaderNumbers] = FONT_KEY_LECO_26_BOLD_NUMBERS_AM_PM,

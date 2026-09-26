@@ -47,13 +47,13 @@ static const MenuCellDimensions s_menu_cell_dimensions[NumPreferredContentSizes]
       },
   [PreferredContentSizeLarge] =
       {
-        .basic_cell_height = 50,
+        .basic_cell_height = 58,
         .small_cell_height = 42,
         .horizontal_inset = 10,
         .title_subtitle_left_margin = 34,
       },
   [PreferredContentSizeExtraLarge] = {
-    .basic_cell_height = 60,
+    .basic_cell_height = 66,
     .small_cell_height = 52,
     .horizontal_inset = 10,
     .title_subtitle_left_margin = 34,
