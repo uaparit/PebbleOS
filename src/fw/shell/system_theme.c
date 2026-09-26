@@ -162,8 +162,8 @@ DEFINE_SYSCALL(const char *, system_theme_get_font_key_for_size, PreferredConten
 static const char *s_menu_cell_subtitle_bold_fonts[NumPreferredContentSizes] = {
   [PreferredContentSizeSmall]      = FONT_KEY_GOTHIC_18_BOLD,
   [PreferredContentSizeMedium]     = FONT_KEY_GOTHIC_18_BOLD,
-  [PreferredContentSizeLarge]      = FONT_KEY_GOTHIC_18_BOLD,
-  [PreferredContentSizeExtraLarge] = FONT_KEY_GOTHIC_24_BOLD,
+  [PreferredContentSizeLarge]      = FONT_KEY_GOTHIC_24_BOLD,
+  [PreferredContentSizeExtraLarge] = FONT_KEY_GOTHIC_28_BOLD,
 };
 
 GFont system_theme_get_font(TextStyleFont font) {
