@@ -12,28 +12,19 @@
   <a href="https://forum.repebble.com/"><img src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fforum.repebble.com&label=forum"></a>
 </p>
 
-> **Fork note (`v4.36.2-ua-branch`):** personal daily-driver branch by
+> **Fork note (`v4.38.4-ua-branch`):** personal daily-driver branch by
 > [uaparit](https://github.com/uaparit), the build actually flashed to the watch. Based on
-> [`v4.36.2`](https://github.com/coredevices/PebbleOS/releases/tag/v4.36.2). Released builds are
-> tagged `v4.36.2-uaX.Y` on this branch (see
+> [`v4.38.4`](https://github.com/coredevices/PebbleOS/releases/tag/v4.38.4). Released builds are
+> tagged `v4.38.4-uaX.Y` on this branch (see
 > [Releases](https://github.com/uaparit/PebbleOS/releases)) — the branch name itself doesn't
 > carry a patch number, since a new `ua` tag doesn't always mean new commits here (e.g. a
 > rebuild with a different compile flag).
 >
-> Backported from upstream `main` (not yet in the `4.36.x` release line), 7 commits by Jeff
-> Hampton that add the "Text Size" preference (Settings → Display):
-> - [`fd4777e58`](https://github.com/coredevices/PebbleOS/commit/fd4777e58) fw/shell: design the ExtraLarge text tier
-> - [`a971489be`](https://github.com/coredevices/PebbleOS/commit/a971489be) fw/applib/ui: design ExtraLarge menu cell dimensions
-> - [`e6509c418`](https://github.com/coredevices/PebbleOS/commit/e6509c418) fw/applib/ui: honor preferred content size in system menus
-> - [`aff65c73a`](https://github.com/coredevices/PebbleOS/commit/aff65c73a) fw/shell/prf: stub out the content size preference
-> - [`3c2fe5ff7`](https://github.com/coredevices/PebbleOS/commit/3c2fe5ff7) fw/apps/system/settings: use the standard cell height for the root menu
-> - [`d7f2ede0c`](https://github.com/coredevices/PebbleOS/commit/d7f2ede0c) fw/apps/system/settings: move Text Size to Display
-> - [`6388ba14f`](https://github.com/coredevices/PebbleOS/commit/6388ba14f) fw: relayout open settings menus on text size change
+> The "Text Size" preference (Settings → Display) that earlier branches of this fork backported
+> is now part of upstream `main` as of `v4.38.0`, with its own independent implementation — this
+> branch no longer carries a backport for it.
 >
 > Added on top:
-> - the app launcher (main menu) now follows Text Size too — fonts, row height, glance cache
->   size, and the Settings glance's battery/charging icons
-> - system-menu cell height/font aligned with the launcher's (was mismatched at "Large")
 > - the watchface picker now follows Text Size too
 > - system option menus (radio-button lists), including the Text Size picker itself, now follow
 >   Text Size too
@@ -47,6 +38,11 @@
 > - the Settings menu's icons are enabled (existing, unused-until-now firmware feature) and its
 >   main list is back to a white background by default (a stray leftover from an upstream
 >   redesign attempt that was otherwise reverted in Feb 2026)
+> - a Bold Subtitles toggle (Settings → Display): bolds menu cell subtitles system-wide, for
+>   readability
+> - system-menu subtitle text uses coredevices' own font sizes at Large/ExtraLarge, but at a
+>   tighter cell height than their build (58px/66px vs. their 61px/85px) — their own numbers
+>   leave up to 19px of unused padding per row
 >
 > See the commit history for full details.
 
@@ -76,7 +72,6 @@ a fixed hue — it always resolves to the opposite of whatever Background is set
 | Settings menu (Light) | ![Settings menu, Light Invert](docs/_static/images/fork/theme/light-invert-settings.png) | ![Settings menu, Light Green](docs/_static/images/fork/theme/light-green-settings.png) | ![Settings menu, Light Magenta](docs/_static/images/fork/theme/light-magenta-settings.png) |
 | Main menu (Dark) | ![Main menu, Dark Invert](docs/_static/images/fork/theme/dark-invert-main-menu.png) | ![Main menu, Dark Green](docs/_static/images/fork/theme/dark-green-main-menu.png) | ![Main menu, Dark Magenta](docs/_static/images/fork/theme/dark-magenta-main-menu.png) |
 | Settings menu (Dark) | ![Settings menu, Dark Invert](docs/_static/images/fork/theme/dark-invert-settings.png) | ![Settings menu, Dark Green](docs/_static/images/fork/theme/dark-green-settings.png) | ![Settings menu, Dark Magenta](docs/_static/images/fork/theme/dark-magenta-settings.png) |
-
 ## Resources
 
 Here's a quick summary of resources to help you find your way around:
