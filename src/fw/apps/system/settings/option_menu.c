@@ -37,16 +37,18 @@ OptionMenu *settings_option_menu_create(const char *i18n_title_key,
   if (!option_menu) {
     return NULL;
   }
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   const OptionMenuConfig config = {
     .title = i18n_get(i18n_title_key, option_menu),
     .content_type = content_type,
     .choice = choice,
-    .status_colors = {GColorWhite, GColorBlack},
+    .status_colors = {normal_bg, gcolor_legible_over(normal_bg)},
     .highlight_colors = {highlight_bg, gcolor_legible_over(highlight_bg)},
     .icons_enabled = icons_enabled,
   };
   option_menu_configure(option_menu, &config);
+  option_menu_set_normal_colors(option_menu, normal_bg, gcolor_legible_over(normal_bg));
   SettingsOptionMenuData *data = task_malloc_check(sizeof(SettingsOptionMenuData));
   OptionMenuCallbacks callbacks = *callbacks_ref;
   *data = (SettingsOptionMenuData){

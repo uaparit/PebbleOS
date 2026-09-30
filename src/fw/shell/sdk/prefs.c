@@ -312,6 +312,26 @@ void shell_prefs_set_theme_highlight_color(GColor color) {
   // Not used in SDK shell
 }
 
+bool shell_prefs_get_theme_dark_background(void) {
+  return false;
+}
+
+void shell_prefs_set_theme_dark_background(bool dark) {
+  // Not used in SDK shell
+}
+
+GColor shell_prefs_get_theme_normal_background(void) {
+  return GColorWhite;
+}
+
+bool shell_prefs_get_theme_highlight_inverted(void) {
+  return false;
+}
+
+void shell_prefs_set_theme_highlight_inverted(bool inverted) {
+  // Not used in SDK shell
+}
+
 #ifdef CONFIG_APP_SCALING
 LegacyAppRenderMode shell_prefs_get_legacy_app_render_mode(void) {
   return (LegacyAppRenderMode)s_legacy_app_render_mode;

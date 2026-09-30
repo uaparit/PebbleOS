@@ -83,3 +83,17 @@ MenuScrollVibeBehavior PBL_WEAK shell_prefs_get_menu_scroll_vibe_behavior(void) 
 void PBL_WEAK shell_prefs_set_menu_scroll_vibe_behavior(MenuScrollVibeBehavior behavior) {
   s_menu_scroll_vibe_behavior = behavior;
 }
+
+static bool s_theme_dark_background = false;
+
+bool PBL_WEAK shell_prefs_get_theme_dark_background(void) {
+  return s_theme_dark_background;
+}
+
+void PBL_WEAK shell_prefs_set_theme_dark_background(bool dark) {
+  s_theme_dark_background = dark;
+}
+
+GColor PBL_WEAK shell_prefs_get_theme_normal_background(void) {
+  return s_theme_dark_background ? GColorBlack : GColorWhite;
+}

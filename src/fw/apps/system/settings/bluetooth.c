@@ -24,6 +24,7 @@
 #include "pbl/services/bluetooth/pairability.h"
 #include "pbl/services/i18n/i18n.h"
 #include "pbl/services/bluetooth/ble_hrm.h"
+#include "shell/prefs.h"
 #include "shell/system_theme.h"
 #include <pbl/logging/logging.h>
 #include "system/passert.h"
@@ -422,7 +423,8 @@ static void prv_draw_row_cb(SettingsCallbacks *context, GContext *ctx, const Lay
     // Enable drawing outside of the cell:
     ctx->draw_state.clip_box = ctx->dest_bitmap.bounds;
 
-    graphics_context_set_text_color(ctx, GColorBlack);
+    GColor normal_bg = shell_prefs_get_theme_normal_background();
+    graphics_context_set_text_color(ctx, gcolor_legible_over(normal_bg));
     GFont font = system_theme_get_font(TextStyleFont_MenuCellSubtitle);
     const int16_t horizontal_inset = menu_cell_basic_horizontal_inset() * 3;
     GRect box = cell_layer->bounds;

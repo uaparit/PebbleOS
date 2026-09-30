@@ -5,6 +5,7 @@
 
 #include "applib/applib_malloc.auto.h"
 #include "resource/resource_ids.auto.h"
+#include "shell/prefs.h"
 #include "shell/system_theme.h"
 #include "system/passert.h"
 
@@ -184,6 +185,19 @@ static void prv_window_load(Window *window) {
   layer_add_child(window_get_root_layer(window), menu_layer_get_layer(&option_menu->menu_layer));
 }
 
+static void prv_window_appear(Window *window) {
+  OptionMenu *option_menu = window_get_user_data(window);
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
+  option_menu_set_normal_colors(option_menu, normal_bg, gcolor_legible_over(normal_bg));
+  window_set_background_color(window, normal_bg);
+
+  if (option_menu->callbacks.selection_will_change) {
+    MenuIndex index = menu_layer_get_selected_index(&option_menu->menu_layer);
+    option_menu->callbacks.selection_will_change(option_menu, index.row, index.row + 1,
+                                                 option_menu->context);
+  }
+}
+
 static void prv_window_unload(Window *window) {
   OptionMenu *option_menu = window_get_user_data(window);
   if (option_menu->callbacks.unload) {
@@ -271,6 +285,7 @@ void option_menu_init(OptionMenu *option_menu) {
   window_set_user_data(&option_menu->window, option_menu);
   window_set_window_handlers(&option_menu->window, &(WindowHandlers){
                                                      .load = prv_window_load,
+                                                     .appear = prv_window_appear,
                                                      .unload = prv_window_unload,
                                                    });
 

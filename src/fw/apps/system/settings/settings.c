@@ -59,6 +59,8 @@ static void prv_pref_change_handler(PebbleEvent *event, void *context) {
   // Reload the menu when any pref changes: cell heights are cached by the menu
   // layer and can change with the preferred content size. Re-anchor the
   // selection afterwards so the scroll offset stays within the new geometry.
+  window_set_background_color(&data->window,
+                              shell_prefs_get_theme_normal_background());
   menu_layer_reload_data(&data->menu_layer);
   menu_layer_set_selected_index(&data->menu_layer, menu_layer_get_selected_index(&data->menu_layer),
                                 MenuRowAlignCenter, false /* animated */);
@@ -77,6 +79,8 @@ static void prv_draw_row_callback(GContext *ctx, const Layer *cell_layer, MenuIn
 
   const char *category_title = settings_menu_get_submodule_info(cell_index->row)->name;
   const char *title = i18n_get(category_title, data);
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
+  menu_layer_set_normal_colors(&(data->menu_layer), normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
   menu_layer_set_highlight_colors(&(data->menu_layer), highlight_bg,
                                   gcolor_legible_over(highlight_bg));
@@ -152,9 +156,9 @@ static void prv_window_load(Window *window) {
                              .select_click = prv_select_callback,
                              .get_separator_height = prv_get_separator_height_callback
                            });
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
   GColor highlight_bg = shell_prefs_get_theme_highlight_color();
-  menu_layer_set_normal_colors(menu_layer, PBL_IF_COLOR_ELSE(GColorBlack, GColorWhite),
-                               PBL_IF_COLOR_ELSE(GColorWhite, GColorBlack));
   menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, &data->window);
   menu_layer_set_scroll_wrap_around(menu_layer, shell_prefs_get_menu_scroll_wrap_around_enable());
@@ -201,7 +205,8 @@ static void handle_init(void) {
                                        .load = prv_window_load,
                                        .unload = prv_window_unload,
                                      });
-  window_set_background_color(window, PBL_IF_COLOR_ELSE(GColorBlack, GColorWhite));
+  window_set_background_color(window,
+                              shell_prefs_get_theme_normal_background());
   app_window_stack_push(window, true);
 }
 
