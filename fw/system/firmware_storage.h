@@ -39,4 +39,6 @@ FirmwareHeader firmware_storage_read_firmware_header(uint32_t address);
 bool firmware_storage_check_valid_firmware_header(uint32_t address, const FirmwareHeader *header);
 
 void firmware_storage_invalidate_firmware_slot(uint8_t slot);
+
+void firmware_storage_demote_firmware_slot(uint8_t slot);
 #endif
