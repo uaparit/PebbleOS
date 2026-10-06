@@ -48,6 +48,15 @@ void boot_bit_set(BootBitValue bit) {
   s_boot_bits_orred |= bit;
 }
 
+static int s_demote_count;
+static int s_demoted_slot;
+#ifdef CONFIG_PBLBOOT
+void firmware_storage_demote_firmware_slot(uint8_t slot) {
+  s_demote_count++;
+  s_demoted_slot = slot;
+}
+#endif
+
 static bool s_firmware_update_is_in_progress;
 bool firmware_update_is_in_progress(void) {
   return s_firmware_update_is_in_progress;
@@ -324,6 +333,8 @@ void test_put_bytes__initialize(void) {
   prv_process_and_reset_test_counters();
   s_last_response_cookie = 0;
   s_boot_bits_orred = 0;
+  s_demote_count = 0;
+  s_demoted_slot = -1;
   s_do_before_write = nullptr;
 
   // Common for most tests:
@@ -890,6 +901,7 @@ void test_put_bytes__install_message_fw_and_sys_resources_boot_bits_set(void) {
 
   // Expect boot bit not to be set yet:
   cl_assert_equal_i((s_boot_bits_orred & BOOT_BIT_NEW_FW_AVAILABLE), 0);
+  cl_assert_equal_i(s_demote_count, 0);
 
   // System Resources object:
   prv_receive_init_put_commit_and_install(ObjectSysResources);
@@ -900,6 +912,13 @@ void test_put_bytes__install_message_fw_and_sys_resources_boot_bits_set(void) {
   cl_assert_equal_i((s_boot_bits_orred & BOOT_BIT_NEW_FW_AVAILABLE), BOOT_BIT_NEW_FW_AVAILABLE);
   cl_assert_equal_i((s_boot_bits_orred & BOOT_BIT_NEW_SYSTEM_RESOURCES_AVAILABLE),
                     BOOT_BIT_NEW_SYSTEM_RESOURCES_AVAILABLE);
+#ifdef CONFIG_PBLBOOT
+  cl_assert_equal_i(s_demote_count, 1);
+  cl_assert_equal_i(s_demoted_slot, CONFIG_FIRMWARE_SLOT);
+#else
+  cl_assert_equal_i(s_demote_count, 0);
+  cl_assert_equal_i(s_demoted_slot, -1);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
