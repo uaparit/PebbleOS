@@ -7,6 +7,8 @@
 #include "flash_region/flash_region.h"
 #include <pbl/logging/logging.h>
 
+#include <stddef.h>
+
 #ifndef CONFIG_PBLBOOT
 FirmwareDescription firmware_storage_read_firmware_description(uint32_t firmware_start_address) {
   FirmwareDescription firmware_description;
@@ -56,17 +58,30 @@ bool firmware_storage_check_valid_firmware_header(uint32_t address, const Firmwa
   return calculated_crc == header->fw_crc;
 }
 
-void firmware_storage_invalidate_firmware_slot(uint8_t slot) {
-  uint32_t slot_start;
+static uint32_t prv_slot_start(uint8_t slot) {
+  return (slot == 0U) ? FLASH_REGION_FIRMWARE_SLOT_0_BEGIN : FLASH_REGION_FIRMWARE_SLOT_1_BEGIN;
+}
 
-  if (slot == 0U) {
-    slot_start = FLASH_REGION_FIRMWARE_SLOT_0_BEGIN;
-  } else {
-    slot_start = FLASH_REGION_FIRMWARE_SLOT_1_BEGIN;
-  }
+void firmware_storage_invalidate_firmware_slot(uint8_t slot) {
+  const uint32_t slot_start = prv_slot_start(slot);
 
   flash_region_erase_optimal_range(slot_start, slot_start, slot_start + SUBSECTOR_SIZE_BYTES,
                                    slot_start + SUBSECTOR_SIZE_BYTES);
+}
+
+void firmware_storage_demote_firmware_slot(uint8_t slot) {
+  const uint32_t slot_start = prv_slot_start(slot);
+  const FirmwareHeader header = firmware_storage_read_firmware_header(slot_start);
+
+  if (header.magic != FIRMWARE_HEADER_MAGIC || header.header_length != sizeof(FirmwareHeader) ||
+      header.fw_timestamp == 0) {
+    return;
+  }
+
+  const uint64_t lowest_priority = 0;
+  flash_write_bytes((const uint8_t *)&lowest_priority,
+                    slot_start + offsetof(FirmwareHeader, fw_timestamp), sizeof(lowest_priority));
+  PBL_LOG_INFO("Demoted firmware slot %u", slot);
 }
 
 #endif

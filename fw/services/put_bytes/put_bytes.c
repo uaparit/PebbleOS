@@ -481,6 +481,10 @@ static void prv_finish_fw_update_if_completed(void) {
   }
 
   boot_bit_set(BOOT_BIT_NEW_FW_AVAILABLE);
+
+#if defined(CONFIG_PBLBOOT) && !defined(CONFIG_RECOVERY_FW)
+  firmware_storage_demote_firmware_slot(CONFIG_FIRMWARE_SLOT);
+#endif
 }
 
 static void prv_do_install(uint32_t token) {
