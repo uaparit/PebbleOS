@@ -286,11 +286,12 @@ static void prv_group_window_select(MenuLayer *menu_layer, MenuIndex *cell_index
 
 static void prv_group_window_load(Window *window) {
   NotificationGroupWindow *group_window = window_get_user_data(window);
+  const GColor normal_bg = shell_prefs_get_theme_normal_background();
   GRect sender_frame = window->layer.bounds;
   sender_frame.size.h = MENU_CELL_BASIC_HEADER_HEIGHT;
   text_layer_init_with_parameters(&group_window->sender_layer, &sender_frame, group_window->sender,
-                                  fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD), GColorBlack,
-                                  GColorWhite,
+                                  fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD),
+                                  gcolor_legible_over(normal_bg), normal_bg,
                                   PBL_IF_RECT_ELSE(GTextAlignmentLeft, GTextAlignmentCenter),
                                   GTextOverflowModeTrailingEllipsis);
 
@@ -306,9 +307,9 @@ static void prv_group_window_load(Window *window) {
                              .draw_row = prv_group_window_draw_row,
                              .select_click = prv_group_window_select,
                            });
-  menu_layer_set_normal_colors(menu_layer, GColorWhite, GColorBlack);
-  menu_layer_set_highlight_colors(
-      menu_layer, PBL_IF_COLOR_ELSE(DEFAULT_NOTIFICATION_COLOR, GColorBlack), GColorWhite);
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
+  const GColor highlight_bg = shell_prefs_get_theme_highlight_color();
+  menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, window);
   menu_layer_set_scroll_wrap_around(menu_layer, false);
   layer_add_child(&window->layer, menu_layer_get_layer(menu_layer));
@@ -347,6 +348,7 @@ static void prv_push_group_window(NotificationsData *data, const NotificationHis
                                                       .load = prv_group_window_load,
                                                       .unload = prv_group_window_unload,
                                                     });
+  window_set_background_color(&group_window->window, shell_prefs_get_theme_normal_background());
   data->group_window = group_window;
   app_window_stack_push(&group_window->window, true);
 }
