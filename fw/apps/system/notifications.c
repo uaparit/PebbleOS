@@ -286,11 +286,12 @@ static void prv_group_window_select(MenuLayer *menu_layer, MenuIndex *cell_index
 
 static void prv_group_window_load(Window *window) {
   NotificationGroupWindow *group_window = window_get_user_data(window);
+  const GColor normal_bg = shell_prefs_get_theme_normal_background();
   GRect sender_frame = window->layer.bounds;
   sender_frame.size.h = MENU_CELL_BASIC_HEADER_HEIGHT;
   text_layer_init_with_parameters(&group_window->sender_layer, &sender_frame, group_window->sender,
-                                  fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD), GColorBlack,
-                                  GColorWhite,
+                                  fonts_get_system_font(FONT_KEY_GOTHIC_14_BOLD),
+                                  gcolor_legible_over(normal_bg), normal_bg,
                                   PBL_IF_RECT_ELSE(GTextAlignmentLeft, GTextAlignmentCenter),
                                   GTextOverflowModeTrailingEllipsis);
 
@@ -306,9 +307,9 @@ static void prv_group_window_load(Window *window) {
                              .draw_row = prv_group_window_draw_row,
                              .select_click = prv_group_window_select,
                            });
-  menu_layer_set_normal_colors(menu_layer, GColorWhite, GColorBlack);
-  menu_layer_set_highlight_colors(
-      menu_layer, PBL_IF_COLOR_ELSE(DEFAULT_NOTIFICATION_COLOR, GColorBlack), GColorWhite);
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
+  const GColor highlight_bg = shell_prefs_get_theme_highlight_color();
+  menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
   menu_layer_set_click_config_onto_window(menu_layer, window);
   menu_layer_set_scroll_wrap_around(menu_layer, false);
   layer_add_child(&window->layer, menu_layer_get_layer(menu_layer));
@@ -347,6 +348,7 @@ static void prv_push_group_window(NotificationsData *data, const NotificationHis
                                                       .load = prv_group_window_load,
                                                       .unload = prv_group_window_unload,
                                                     });
+  window_set_background_color(&group_window->window, shell_prefs_get_theme_normal_background());
   data->group_window = group_window;
   app_window_stack_push(&group_window->window, true);
 }
@@ -964,9 +966,10 @@ static void prv_window_load(Window *window) {
                              .select_click = prv_select_callback,
                            });
 
-  menu_layer_set_normal_colors(menu_layer, GColorWhite, GColorBlack);
-  menu_layer_set_highlight_colors(
-      menu_layer, PBL_IF_COLOR_ELSE(DEFAULT_NOTIFICATION_COLOR, GColorBlack), GColorWhite);
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
+  menu_layer_set_normal_colors(menu_layer, normal_bg, gcolor_legible_over(normal_bg));
+  GColor highlight_bg = shell_prefs_get_theme_highlight_color();
+  menu_layer_set_highlight_colors(menu_layer, highlight_bg, gcolor_legible_over(highlight_bg));
 
   menu_layer_set_click_config_onto_window(menu_layer, window);
   menu_layer_set_scroll_wrap_around(menu_layer, shell_prefs_get_menu_scroll_wrap_around_enable());
@@ -980,17 +983,19 @@ static void prv_window_load(Window *window) {
   const int16_t horizontal_margin = 5;
   const GFont font = system_theme_get_font(TextStyleFont_MenuCellTitle);
   // configure text layer to be vertically aligned (15 is hacking around our poor fonts)
-  text_layer_init_with_parameters(
-      text_layer,
-      &GRect(horizontal_margin, window->layer.bounds.size.h / 2 - 15,
-             window->layer.bounds.size.w - horizontal_margin, window->layer.bounds.size.h / 2),
-      i18n_get("No notifications", data), font, GColorBlack, GColorWhite, GTextAlignmentCenter,
-      GTextOverflowModeTrailingEllipsis);
+  text_layer_init_with_parameters(text_layer,
+                                  &GRect(horizontal_margin, window->layer.bounds.size.h / 2 - 15,
+                                         window->layer.bounds.size.w - horizontal_margin,
+                                         window->layer.bounds.size.h / 2),
+                                  i18n_get("No notifications", data), font,
+                                  gcolor_legible_over(normal_bg), normal_bg,
+                                  GTextAlignmentCenter,
+                                  GTextOverflowModeTrailingEllipsis);
   layer_add_child(&window->layer, text_layer_get_layer(text_layer));
 
 #if PBL_ROUND
   GColor bg_color = GColorClear;
-  GColor fg_color = GColorBlack;
+  GColor fg_color = gcolor_legible_over(normal_bg);
 
   StatusBarLayer *status_bar = &data->status_bar_layer;
   status_bar_layer_init(status_bar);
@@ -1011,6 +1016,8 @@ static void prv_push_window(NotificationsData *data) {
                                        .appear = prv_window_appear,
                                        .disappear = prv_window_disappear,
                                      });
+  window_set_background_color(window,
+                              shell_prefs_get_theme_normal_background());
 
   const bool animated = true;
   app_window_stack_push(window, animated);
