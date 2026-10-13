@@ -544,7 +544,7 @@ void test_menu_layer_system_cells__system_cell_heights(void) {
 #if defined(CONFIG_PLATFORM_FLINT)
     60,
 #elifdef CONFIG_PLATFORM_EMERY
-    61,
+    58,
 #else
     PBL_IF_RECT_ELSE(50, 61),
 #endif
