@@ -53,7 +53,7 @@ static const MenuCellDimensions s_menu_cell_dimensions[NumPreferredContentSizes]
 #if defined(CONFIG_PLATFORM_FLINT)
         .basic_cell_height = 60,
 #elifdef CONFIG_PLATFORM_EMERY
-        .basic_cell_height = 61,
+        .basic_cell_height = 58,
 #else
         .basic_cell_height = PBL_IF_RECT_ELSE(50, 61),
 #endif
