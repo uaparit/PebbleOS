@@ -12,10 +12,10 @@
   <a href="https://forum.repebble.com/"><img src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fforum.repebble.com&label=forum"></a>
 </p>
 
-> **Fork note (`v4.41.0-ua-branch`):** personal daily-driver branch by
+> **Fork note (`v4.41.1-ua-branch`):** personal daily-driver branch by
 > [uaparit](https://github.com/uaparit), the build actually flashed to the watch. Based on
-> [`v4.41.0`](https://github.com/coredevices/PebbleOS/releases/tag/v4.41.0). Released builds are
-> tagged `v4.41.0-uaX.Y` on this branch (see
+> [`v4.41.1`](https://github.com/coredevices/PebbleOS/releases/tag/v4.41.1). Released builds are
+> tagged `v4.41.1-uaX.Y` on this branch (see
 > [Releases](https://github.com/uaparit/PebbleOS/releases)) — the branch name itself doesn't
 > carry a patch number, since a new `ua` tag doesn't always mean new commits here (e.g. a
 > rebuild with a different compile flag).
