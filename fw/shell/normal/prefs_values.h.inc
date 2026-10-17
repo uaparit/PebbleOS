@@ -71,6 +71,8 @@
 
 #ifdef CONFIG_THEMING
   PREFS_MACRO(PREF_KEY_THEME_HIGHLIGHT_COLOR, s_theme_highlight_color)
+  PREFS_MACRO(PREF_KEY_THEME_DARK_BACKGROUND, s_theme_dark_background)
+  PREFS_MACRO(PREF_KEY_THEME_HIGHLIGHT_INVERTED, s_theme_highlight_inverted)
 #endif
 
   PREFS_MACRO(PREF_KEY_MENU_SCROLL_WRAP_AROUND, s_menu_scroll_wrap_around)
