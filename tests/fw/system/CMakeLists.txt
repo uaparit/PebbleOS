@@ -5,7 +5,7 @@ pbl_clar_test(test_firmware_storage
   SOURCES
     fw/system/firmware_storage.c
     tests/fakes/fake_spi_flash.c
-  PLATFORMS obelix
+  PLATFORMS emery
   OVERRIDES dummy_board
 )
 
