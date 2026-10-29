@@ -37,6 +37,7 @@
 #include <kernel/ui/system_icons.h>
 #include <resource/resource_ids.auto.h>
 #include <shell/normal/app_idle_timeout.h>
+#include <shell/prefs.h>
 #include <shell/system_theme.h>
 
 #define HEADER_BUFFER_SIZE 22
@@ -423,13 +424,14 @@ static void prv_draw_hint(GContext *ctx, SettingsBluetoothData *data, const GRec
                           int16_t hint_height, GFont font) {
   const GRect hint_bounds = GRect(cell_bounds->origin.x, cell_bounds->size.h - hint_height,
                                   cell_bounds->size.w, hint_height);
-  graphics_context_set_fill_color(ctx, GColorWhite);
+  GColor normal_bg = shell_prefs_get_theme_normal_background();
+  graphics_context_set_fill_color(ctx, normal_bg);
   graphics_fill_rect(ctx, &hint_bounds);
 
   GRect box = prv_get_hint_box();
   box.origin.y += hint_bounds.origin.y;
   box.size.h = hint_height;
-  graphics_context_set_text_color(ctx, GColorBlack);
+  graphics_context_set_text_color(ctx, gcolor_legible_over(normal_bg));
   graphics_draw_text(ctx, prv_get_hint(data), font, box, GTextOverflowModeWordWrap,
                      GTextAlignmentCenter, nullptr);
 }
