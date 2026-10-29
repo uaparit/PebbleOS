@@ -9,9 +9,6 @@
 #include "clar.h"
 #include "fake_spi_flash.h"
 
-#include "stubs_logging.h"
-#include "stubs_passert.h"
-
 uint32_t flash_crc32(uint32_t flash_addr, uint32_t num_bytes) {
   return 0;
 }
