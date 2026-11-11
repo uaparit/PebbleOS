@@ -11,6 +11,7 @@
 #include <pbl/services/light.h>
 #include <pbl/services/touch/touch.h>
 #include <pbl/services/touch/touch_nav_service.h>
+#include <pbl/util/math.h>
 #include <pbl/util/units.h>
 
 #include <applib/graphics/gtypes.h>
@@ -113,6 +114,12 @@ static bool s_touch_navigation_menu_enabled = true;
 
 #define PREF_KEY_MOTION_SENSITIVITY "motionSensitivity"
 static uint8_t s_motion_sensitivity = 55; // Default to Medium
+
+#define PREF_KEY_MIC_SECONDARY "micSecondary"
+static bool s_mic_secondary = false;
+
+#define PREF_KEY_MIC_GAIN_OFFSET "micGainOffset"
+static int8_t s_mic_gain_offset = 0;
 
 #ifdef CONFIG_DYNAMIC_BACKLIGHT
 #define PREF_KEY_BACKLIGHT_DYNAMIC_MODE "lightDynamicMode"
@@ -586,6 +593,29 @@ static bool prv_set_s_motion_sensitivity(uint8_t *sensitivity) {
   accel_manager_update_sensitivity(*sensitivity);
 #endif
 
+  return true;
+}
+
+static void prv_apply_mic_input(void) {
+#ifdef CONFIG_MIC_SF32LB
+  mic_set_input(MIC, s_mic_secondary, s_mic_gain_offset);
+#endif
+}
+
+static bool prv_set_s_mic_secondary(bool *secondary) {
+  s_mic_secondary = *secondary;
+  prv_apply_mic_input();
+  return true;
+}
+
+static bool prv_set_s_mic_gain_offset(int8_t *offset) {
+  if ((*offset < SHELL_PREFS_MIC_GAIN_OFFSET_MIN) || (*offset > SHELL_PREFS_MIC_GAIN_OFFSET_MAX)) {
+    s_mic_gain_offset = 0;
+    prv_apply_mic_input();
+    return false;
+  }
+  s_mic_gain_offset = *offset;
+  prv_apply_mic_input();
   return true;
 }
 
@@ -1688,6 +1718,23 @@ void shell_prefs_set_motion_sensitivity(uint8_t sensitivity) {
     sensitivity = 50;
   }
   prv_pref_set(PREF_KEY_MOTION_SENSITIVITY, &sensitivity, sizeof(sensitivity));
+}
+
+bool shell_prefs_get_mic_secondary(void) {
+  return s_mic_secondary;
+}
+
+void shell_prefs_set_mic_secondary(bool secondary) {
+  prv_pref_set(PREF_KEY_MIC_SECONDARY, &secondary, sizeof(secondary));
+}
+
+int8_t shell_prefs_get_mic_gain_offset(void) {
+  return s_mic_gain_offset;
+}
+
+void shell_prefs_set_mic_gain_offset(int8_t offset_db) {
+  offset_db = CLIP(offset_db, SHELL_PREFS_MIC_GAIN_OFFSET_MIN, SHELL_PREFS_MIC_GAIN_OFFSET_MAX);
+  prv_pref_set(PREF_KEY_MIC_GAIN_OFFSET, &offset_db, sizeof(offset_db));
 }
 
 uint32_t backlight_get_ambient_threshold(void) {

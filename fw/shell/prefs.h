@@ -186,6 +186,16 @@ void backlight_set_preset(BacklightPreset preset);
 uint8_t shell_prefs_get_motion_sensitivity(void);
 void shell_prefs_set_motion_sensitivity(uint8_t sensitivity);
 
+// Microphone used for capturing: false = primary (left PDM channel), true = secondary
+bool shell_prefs_get_mic_secondary(void);
+void shell_prefs_set_mic_secondary(bool secondary);
+
+// Microphone gain relative to the driver default, in dB
+#define SHELL_PREFS_MIC_GAIN_OFFSET_MIN (-15)
+#define SHELL_PREFS_MIC_GAIN_OFFSET_MAX (15)
+int8_t shell_prefs_get_mic_gain_offset(void);
+void shell_prefs_set_mic_gain_offset(int8_t offset_db);
+
 // The backlight ambient light threshold setting
 uint32_t backlight_get_ambient_threshold(void);
 void backlight_set_ambient_threshold(uint32_t threshold);
