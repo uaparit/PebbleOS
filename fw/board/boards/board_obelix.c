@@ -310,6 +310,7 @@ static const MicDevice mic_device = {
   .sample_rate = 16000,
   .channel_depth = 16,
   .vdd = &s_npm1300_ldsw2.reg,
+  .dma_request_r = DMA_REQUEST_37,
 };
 const MicDevice *MIC = &mic_device;
 PBL_IRQ_CONNECT(PDM1, 5, pdm1_data_handler, MIC, 0);

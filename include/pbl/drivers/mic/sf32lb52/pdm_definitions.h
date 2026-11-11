@@ -43,6 +43,8 @@ typedef struct MicState {
   bool is_running;
   bool main_pending;
   bool bg_pending;
+  bool secondary;
+  uint32_t dma_request_l;
   uint16_t volume;
   uint8_t channels;
   uint32_t capture_epoch;
@@ -85,7 +87,20 @@ typedef const struct MicDevice {
   uint16_t default_volume;
   /** Microphone supply, switched on while capturing; NULL if always powered. */
   const struct pbl_regulator *vdd;
+  /** DMA request of the right channel; 0 if mono capture stays on the left channel. */
+  uint32_t dma_request_r;
 } MicDevice;
+
+/**
+ * @brief Select the microphone and gain used for capturing.
+ *
+ * Takes effect on the next mic_start().
+ *
+ * @param this Microphone device.
+ * @param secondary Capture the right PDM channel in mono mode instead of the left one.
+ * @param gain_offset_db Gain relative to the driver default, in dB.
+ */
+void mic_set_input(MicDevice *this, bool secondary, int8_t gain_offset_db);
 
 /**
  * @brief PDM interrupt handler.
