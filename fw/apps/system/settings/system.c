@@ -74,6 +74,10 @@ enum {
   DebuggingItemAccelShakeLogInfo,
   DebuggingItemVibeLogInfo,
   DebuggingItemCompactSettingsDbs,
+#ifdef CONFIG_MIC_SF32LB
+  DebuggingItemMicInput,
+  DebuggingItemMicGain,
+#endif
 #if defined(CONFIG_HRM) && defined(CONFIG_DEMO_APP_SPO2_TEST)
   DebuggingItemSpO2Test,
 #endif
@@ -476,6 +480,42 @@ static void prv_motion_sensitivity_menu_push(SettingsSystemData *data) {
 }
 #endif
 
+// Microphone Settings
+//////////////////////
+#ifdef CONFIG_MIC_SF32LB
+static const int8_t s_mic_gain_values[] = {-15, -10, -5, 0, 5, 10, 15};
+
+static const char *s_mic_gain_labels[] = {i18n_noop("-15 dB"), i18n_noop("-10 dB"),
+                                          i18n_noop("-5 dB"),  i18n_noop("Default"),
+                                          i18n_noop("+5 dB"),  i18n_noop("+10 dB"),
+                                          i18n_noop("+15 dB")};
+
+static int prv_mic_gain_get_selection_index(void) {
+  const int8_t offset = shell_prefs_get_mic_gain_offset();
+  for (int i = 0; i < (int)ARRAY_LENGTH(s_mic_gain_values); i++) {
+    if (offset <= s_mic_gain_values[i]) {
+      return i;
+    }
+  }
+  return ARRAY_LENGTH(s_mic_gain_values) - 1;
+}
+
+static void prv_mic_gain_menu_select(OptionMenu *option_menu, int selection, void *context) {
+  shell_prefs_set_mic_gain_offset(s_mic_gain_values[selection]);
+  app_window_stack_remove(&option_menu->window, true /* animated */);
+}
+
+static void prv_mic_gain_menu_push(SettingsSystemData *data) {
+  const OptionMenuCallbacks callbacks = {
+    .select = prv_mic_gain_menu_select,
+  };
+  settings_option_menu_push(i18n_noop("Mic Gain"), OptionMenuContentType_SingleLine,
+                            prv_mic_gain_get_selection_index(), &callbacks,
+                            ARRAY_LENGTH(s_mic_gain_labels), true /* icons_enabled */,
+                            s_mic_gain_labels, data);
+}
+#endif
+
 // Compact growable settings DBs
 ////////////////////////////////
 
@@ -500,6 +540,10 @@ static const char *s_debugging_titles[DebuggingItem_Count] = {
   [DebuggingItemAccelShakeLogInfo] = i18n_noop("Shake Log Info"),
   [DebuggingItemVibeLogInfo] = i18n_noop("Vibe Log Info"),
   [DebuggingItemCompactSettingsDbs] = i18n_noop("Compact Settings DBs"),
+#ifdef CONFIG_MIC_SF32LB
+  [DebuggingItemMicInput] = i18n_noop("Microphone"),
+  [DebuggingItemMicGain] = i18n_noop("Mic Gain"),
+#endif
 #if defined(CONFIG_HRM) && defined(CONFIG_DEMO_APP_SPO2_TEST)
   [DebuggingItemSpO2Test] = i18n_noop("SpO2 Test"),
 #endif
@@ -543,6 +587,14 @@ static void prv_debugging_draw_row_callback(GContext *ctx, const Layer *cell_lay
     subtitle_text = shell_prefs_get_vibe_log_info_enabled() ? i18n_get("Enabled", data)
                                                             : i18n_get("Disabled", data);
   }
+#ifdef CONFIG_MIC_SF32LB
+  else if (cell_index->row == DebuggingItemMicInput) {
+    subtitle_text =
+        shell_prefs_get_mic_secondary() ? i18n_get("Secondary", data) : i18n_get("Primary", data);
+  } else if (cell_index->row == DebuggingItemMicGain) {
+    subtitle_text = i18n_get(s_mic_gain_labels[prv_mic_gain_get_selection_index()], data);
+  }
+#endif
   menu_cell_basic_draw(ctx, cell_layer, title, subtitle_text, nullptr);
 }
 
@@ -587,6 +639,14 @@ static void prv_debugging_select_callback(MenuLayer *menu_layer, MenuIndex *cell
     case DebuggingItemCompactSettingsDbs:
       prv_compact_settings_dbs();
       break;
+#ifdef CONFIG_MIC_SF32LB
+    case DebuggingItemMicInput:
+      shell_prefs_set_mic_secondary(!shell_prefs_get_mic_secondary());
+      break;
+    case DebuggingItemMicGain:
+      prv_mic_gain_menu_push(data);
+      break;
+#endif
 #if defined(CONFIG_HRM) && defined(CONFIG_DEMO_APP_SPO2_TEST)
     case DebuggingItemSpO2Test:
       app_manager_put_launch_app_event(&(AppLaunchEventConfig){
