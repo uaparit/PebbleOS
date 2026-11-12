@@ -39,9 +39,12 @@
 >   official firmware with the same or a higher version number was written but never booted
 > - microphone selection and gain (Settings → System → Debugging, Pebble Time 2): "Microphone"
 >   switches capture from the primary to the secondary of the two built-in microphones, "Mic
->   Gain" shifts the input gain from -15 to +15 dB in 5 dB steps around the default. Both apply
->   to dictation, voice replies and apps from the next recording on — meant for watches whose
+>   Gain" raises the input gain from the default up to +15 dB in 3 dB steps. Both apply to
+>   dictation, voice replies and apps from the next recording on — meant for watches whose
 >   primary microphone has become weak
+> - voice is encoded at 12.8 kbps (Speex wideband quality 4) instead of 9.8 kbps, with a higher
+>   encoder complexity. The 9.8 kbps bitrate silently overrode the configured quality, so
+>   recordings were actually encoded at quality 3
 >
 > See the commit history for full details.
 
