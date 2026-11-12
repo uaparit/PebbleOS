@@ -614,13 +614,19 @@ static bool prv_set_s_mic_secondary(bool *secondary) {
   return true;
 }
 
+static int8_t prv_mic_gain_offset_round(int8_t offset) {
+  offset = CLIP(offset, SHELL_PREFS_MIC_GAIN_OFFSET_MIN, SHELL_PREFS_MIC_GAIN_OFFSET_MAX);
+  return ((offset + SHELL_PREFS_MIC_GAIN_OFFSET_STEP / 2) / SHELL_PREFS_MIC_GAIN_OFFSET_STEP) *
+         SHELL_PREFS_MIC_GAIN_OFFSET_STEP;
+}
+
 static bool prv_set_s_mic_gain_offset(int8_t *offset) {
   if ((*offset < SHELL_PREFS_MIC_GAIN_OFFSET_MIN) || (*offset > SHELL_PREFS_MIC_GAIN_OFFSET_MAX)) {
     s_mic_gain_offset = 0;
     prv_apply_mic_input();
     return false;
   }
-  s_mic_gain_offset = *offset;
+  s_mic_gain_offset = prv_mic_gain_offset_round(*offset);
   prv_apply_mic_input();
   return true;
 }
@@ -1754,7 +1760,7 @@ int8_t shell_prefs_get_mic_gain_offset(void) {
 }
 
 void shell_prefs_set_mic_gain_offset(int8_t offset_db) {
-  offset_db = CLIP(offset_db, SHELL_PREFS_MIC_GAIN_OFFSET_MIN, SHELL_PREFS_MIC_GAIN_OFFSET_MAX);
+  offset_db = prv_mic_gain_offset_round(offset_db);
   prv_pref_set(PREF_KEY_MIC_GAIN_OFFSET, &offset_db, sizeof(offset_db));
 }
 
