@@ -37,6 +37,11 @@
 > - installing any firmware over this one activates it on the next boot. Builds that aren't on an
 >   exact release tag get a boot priority above every official release, so without this an
 >   official firmware with the same or a higher version number was written but never booted
+> - microphone selection and gain (Settings → System → Debugging, Pebble Time 2): "Microphone"
+>   switches capture from the primary to the secondary of the two built-in microphones, "Mic
+>   Gain" shifts the input gain from -15 to +15 dB in 5 dB steps around the default. Both apply
+>   to dictation, voice replies and apps from the next recording on — meant for watches whose
+>   primary microphone has become weak
 >
 > See the commit history for full details.
 
