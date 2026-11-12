@@ -190,9 +190,11 @@ void shell_prefs_set_motion_sensitivity(uint8_t sensitivity);
 bool shell_prefs_get_mic_secondary(void);
 void shell_prefs_set_mic_secondary(bool secondary);
 
-// Microphone gain relative to the driver default, in dB
-#define SHELL_PREFS_MIC_GAIN_OFFSET_MIN (-15)
-#define SHELL_PREFS_MIC_GAIN_OFFSET_MAX (15)
+// Microphone gain relative to the driver default, in dB, in steps of
+// SHELL_PREFS_MIC_GAIN_OFFSET_STEP
+#define SHELL_PREFS_MIC_GAIN_OFFSET_MIN  (0)
+#define SHELL_PREFS_MIC_GAIN_OFFSET_MAX  (15)
+#define SHELL_PREFS_MIC_GAIN_OFFSET_STEP (3)
 int8_t shell_prefs_get_mic_gain_offset(void);
 void shell_prefs_set_mic_gain_offset(int8_t offset_db);
 
