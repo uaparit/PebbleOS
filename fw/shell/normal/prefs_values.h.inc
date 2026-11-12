@@ -21,6 +21,8 @@
   PREFS_MACRO(PREF_KEY_TOUCH_ENABLED, s_touch_enabled)
   PREFS_MACRO(PREF_KEY_TOUCH_NAVIGATION_MENU, s_touch_navigation_menu_enabled)
   PREFS_MACRO(PREF_KEY_MOTION_SENSITIVITY, s_motion_sensitivity)
+  PREFS_MACRO(PREF_KEY_MIC_SECONDARY, s_mic_secondary)
+  PREFS_MACRO(PREF_KEY_MIC_GAIN_OFFSET, s_mic_gain_offset)
 #ifdef CONFIG_DYNAMIC_BACKLIGHT
   PREFS_MACRO(PREF_KEY_BACKLIGHT_DYNAMIC_MODE, s_backlight_dynamic_mode)
 #endif

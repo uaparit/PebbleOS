@@ -17,6 +17,7 @@
 #include <pbl/soc/sf32lb/sleep.h>
 #include <pbl/util/circular_buffer.h>
 #include <pbl/util/heap.h>
+#include <pbl/util/math.h>
 
 #include <board/board.h>
 #include <kernel/kernel_heap.h>
@@ -28,6 +29,7 @@ PBL_LOG_MODULE_DEFINE(driver_mic_sf32lb, CONFIG_DRIVER_MIC_LOG_LEVEL);
 #define PDM_CAPTURE_RESYNC_SAMPLES    (MIC_SAMPLE_RATE * 8 / 1000)
 #define PDM_AUDIO_RECORD_GAIN_DEFAULT (90)
 #define PDM_AUDIO_RECORD_GAIN_MAX     (120)
+#define PDM_AUDIO_RECORD_GAIN_PER_DB  (2)
 
 // PDM Configuration
 #define PDM_BUFFER_SIZE_SAMPLES (320)
@@ -66,6 +68,7 @@ void mic_init(const MicDevice *this) {
 
   pbl_mutex_init(&state->mutex);
   state->volume = PDM_AUDIO_RECORD_GAIN_DEFAULT;
+  state->dma_request_l = state->hdma.Init.Request;
 
   PBL_ASSERTN(pbl_pinctrl_select_state(&this->pinctrl, PBL_PINCTRL_STATE_DEFAULT) == 0);
 
@@ -98,6 +101,16 @@ void mic_set_volume(const MicDevice *this, uint16_t volume) {
   if (volume > PDM_AUDIO_RECORD_GAIN_MAX)
     volume = PDM_AUDIO_RECORD_GAIN_MAX;
   state->volume = volume;
+}
+
+void mic_set_input(const MicDevice *this, bool secondary, int8_t gain_offset_db) {
+  PBL_ASSERTN(this);
+  PBL_ASSERTN(this->state);
+
+  MicDeviceState *state = this->state;
+  const int gain = PDM_AUDIO_RECORD_GAIN_DEFAULT + gain_offset_db * PDM_AUDIO_RECORD_GAIN_PER_DB;
+  state->volume = CLIP(gain, 0, PDM_AUDIO_RECORD_GAIN_MAX);
+  state->secondary = secondary && (this->dma_request_r != 0);
 }
 
 static bool prv_allocate_buffers(const MicDevice *this, bool polling) {
@@ -329,12 +342,14 @@ void pdm1_l_dma_handler(MicDevice *this) {
 
 static bool prv_start_pdm_capture(const MicDevice *this) {
   PDM_HandleTypeDef *hpdm = this->state->hpdm;
+  const bool right = (this->channels == 1) && this->state->secondary;
 
   HAL_StatusTypeDef res;
   HAL_RCC_EnableModule(RCC_MOD_PDM1);
+  hpdm->hdmarx->Init.Request = right ? this->dma_request_r : this->state->dma_request_l;
   res = HAL_PDM_Init(hpdm);
   if (this->channels == 1) {
-    hpdm->Init.Channels = PDM_CHANNEL_LEFT_ONLY;
+    hpdm->Init.Channels = right ? PDM_CHANNEL_RIGHT_ONLY : PDM_CHANNEL_LEFT_ONLY;
   } else {
     hpdm->Init.Channels = PDM_CHANNEL_STEREO;
   }
