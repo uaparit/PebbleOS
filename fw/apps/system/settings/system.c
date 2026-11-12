@@ -483,12 +483,11 @@ static void prv_motion_sensitivity_menu_push(SettingsSystemData *data) {
 // Microphone Settings
 //////////////////////
 #ifdef CONFIG_MIC_SF32LB
-static const int8_t s_mic_gain_values[] = {-15, -10, -5, 0, 5, 10, 15};
+static const int8_t s_mic_gain_values[] = {0, 3, 6, 9, 12, 15};
 
-static const char *s_mic_gain_labels[] = {i18n_noop("-15 dB"), i18n_noop("-10 dB"),
-                                          i18n_noop("-5 dB"),  i18n_noop("Default"),
-                                          i18n_noop("+5 dB"),  i18n_noop("+10 dB"),
-                                          i18n_noop("+15 dB")};
+static const char *s_mic_gain_labels[] = {i18n_noop("Default"), i18n_noop("+3 dB"),
+                                          i18n_noop("+6 dB"),   i18n_noop("+9 dB"),
+                                          i18n_noop("+12 dB"),  i18n_noop("+15 dB")};
 
 static int prv_mic_gain_get_selection_index(void) {
   const int8_t offset = shell_prefs_get_mic_gain_offset();
