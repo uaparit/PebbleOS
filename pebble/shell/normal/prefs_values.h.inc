@@ -73,6 +73,7 @@
 #endif
 
   PREFS_MACRO(PREF_KEY_THEME_HIGHLIGHT_COLOR, s_theme_highlight_color)
+  PREFS_MACRO(PREF_KEY_THEME_HIGHLIGHT_INVERTED, s_theme_highlight_inverted)
   PREFS_MACRO(PREF_KEY_DARK_MODE, s_dark_mode)
   PREFS_MACRO(PREF_KEY_DARK_MODE_SCHEDULE, s_dark_mode_schedule)
 

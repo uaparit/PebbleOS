@@ -295,6 +295,10 @@ void display_orientation_set_left(bool left);
 GColor shell_prefs_get_theme_highlight_color(void);
 void shell_prefs_set_theme_highlight_color(GColor color);
 
+// Highlight follows the foreground color (black on light, white on dark) instead of the accent
+bool shell_prefs_get_theme_highlight_inverted(void);
+void shell_prefs_set_theme_highlight_inverted(bool inverted);
+
 bool shell_prefs_get_menu_scroll_wrap_around_enable(void);
 void shell_prefs_set_menu_scroll_wrap_around_enable(bool enable);
 
