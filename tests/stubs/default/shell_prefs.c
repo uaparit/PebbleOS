@@ -77,6 +77,13 @@ GColor PBL_WEAK shell_prefs_get_theme_highlight_color(void) {
   return PBL_IF_COLOR_ELSE(GColorVividCerulean, GColorBlack);
 }
 
+bool PBL_WEAK shell_prefs_get_theme_highlight_inverted(void) {
+  return false;
+}
+
+void PBL_WEAK shell_prefs_set_theme_highlight_inverted(bool inverted) {
+}
+
 DarkMode PBL_WEAK shell_prefs_get_dark_mode(void) {
   return DarkModeOff;
 }

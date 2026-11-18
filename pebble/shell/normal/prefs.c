@@ -347,9 +347,11 @@ static bool s_als_threshold_migrated_v2 = false;
 static uint8_t s_legacy_app_render_mode = 1; // Default to scaled mode
 #endif
 
-#define PREF_KEY_THEME_HIGHLIGHT_COLOR "themeHighlightColor"
+#define PREF_KEY_THEME_HIGHLIGHT_COLOR    "themeHighlightColor"
+#define PREF_KEY_THEME_HIGHLIGHT_INVERTED "themeHighlightInverted"
 
 static GColor s_theme_highlight_color = GColorVividCerulean;
+static bool s_theme_highlight_inverted = false;
 
 #define PREF_KEY_DARK_MODE          "darkMode"
 #define PREF_KEY_DARK_MODE_SCHEDULE "darkModeSchedule"
@@ -977,6 +979,11 @@ static bool prv_set_s_theme_highlight_color(GColor *color) {
     return false; // Reject invalid value
   }
   s_theme_highlight_color = *color;
+  return true;
+}
+
+static bool prv_set_s_theme_highlight_inverted(bool *inverted) {
+  s_theme_highlight_inverted = *inverted;
   return true;
 }
 
@@ -2399,12 +2406,23 @@ GColor shell_prefs_get_theme_highlight_color(void) {
   // No accent on black and white displays: highlights invert the theme colors
   return system_theme_get_fg_color();
 #else
+  if (s_theme_highlight_inverted) {
+    return system_theme_get_fg_color();
+  }
   return s_theme_highlight_color;
 #endif
 }
 
 void shell_prefs_set_theme_highlight_color(GColor color) {
   prv_pref_set(PREF_KEY_THEME_HIGHLIGHT_COLOR, &color, sizeof(GColor));
+}
+
+bool shell_prefs_get_theme_highlight_inverted(void) {
+  return s_theme_highlight_inverted;
+}
+
+void shell_prefs_set_theme_highlight_inverted(bool inverted) {
+  prv_pref_set(PREF_KEY_THEME_HIGHLIGHT_INVERTED, &inverted, sizeof(inverted));
 }
 
 bool shell_prefs_get_menu_scroll_wrap_around_enable(void) {

@@ -312,6 +312,14 @@ void shell_prefs_set_theme_highlight_color(GColor color) {
   // Not used in SDK shell
 }
 
+bool shell_prefs_get_theme_highlight_inverted(void) {
+  return false;
+}
+
+void shell_prefs_set_theme_highlight_inverted(bool inverted) {
+  // Not used in SDK shell
+}
+
 DarkMode shell_prefs_get_dark_mode(void) {
   return DarkModeOff;
 }
