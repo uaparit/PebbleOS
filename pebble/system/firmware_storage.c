@@ -3,6 +3,8 @@
 
 #include "firmware_storage.h"
 
+#include <stddef.h>
+
 #include <pbl/drivers/flash.h>
 #include <pbl/logging/logging.h>
 
@@ -57,11 +59,27 @@ bool firmware_storage_check_valid_firmware_header(uint32_t address, const Firmwa
   return calculated_crc == header->fw_crc;
 }
 
-void firmware_storage_invalidate_firmware_slot(uint8_t slot) {
-  const struct pbl_flash_partition part =
-      (slot == 0U) ? PART_FIRMWARE_SLOT_0 : PART_FIRMWARE_SLOT_1;
+static struct pbl_flash_partition prv_slot_partition(uint8_t slot) {
+  return (slot == 0U) ? PART_FIRMWARE_SLOT_0 : PART_FIRMWARE_SLOT_1;
+}
 
-  pbl_flash_partition_erase(part, 0U, SUBSECTOR_SIZE_BYTES);
+void firmware_storage_invalidate_firmware_slot(uint8_t slot) {
+  pbl_flash_partition_erase(prv_slot_partition(slot), 0U, SUBSECTOR_SIZE_BYTES);
+}
+
+void firmware_storage_demote_firmware_slot(uint8_t slot) {
+  const struct pbl_flash_partition part = prv_slot_partition(slot);
+  const FirmwareHeader header = firmware_storage_read_firmware_header(part.offset);
+
+  if (header.magic != FIRMWARE_HEADER_MAGIC || header.header_length != sizeof(FirmwareHeader) ||
+      header.fw_timestamp == 0) {
+    return;
+  }
+
+  const uint64_t lowest_priority = 0;
+  pbl_flash_partition_write(part, offsetof(FirmwareHeader, fw_timestamp), &lowest_priority,
+                            sizeof(lowest_priority));
+  PBL_LOG_INFO("Demoted firmware slot %u", slot);
 }
 
 #endif
