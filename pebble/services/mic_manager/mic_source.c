@@ -24,6 +24,10 @@ PBL_LOG_MODULE_DECLARE(service_mic_manager, CONFIG_SERVICE_MIC_MANAGER_LOG_LEVEL
 #define PERIOD_FRAMES (MIC_MANAGER_SAMPLE_RATE * PERIOD_MS / MS_PER_S)
 #define PERIODS       2U
 
+#define MDB_PER_DB        1000
+#define SECONDARY_CHANNEL 1U
+#define STEREO_CHANNELS   2U
+
 // Queue between the device interrupt and the clients. The heap fragments, so a smaller one is
 // taken when needed; transcription degrades below the minimum.
 #define FIFO_MS        320U
@@ -49,6 +53,10 @@ static struct {
   void *context;
   int16_t *buffer;
   size_t buffer_len;
+  bool secondary;
+  int8_t gain_offset_db;
+  bool stereo;
+  int16_t mono[PERIOD_FRAMES];
 } s_src;
 
 static void prv_dispatch(void *data);
@@ -66,11 +74,19 @@ static void prv_period_done(const struct pbl_audio *audio, void *period,
                             const struct pbl_audio_pos *pos, void *arg) {
   const uint16_t bytes = PERIOD_FRAMES * MIC_MANAGER_CHANNELS * sizeof(int16_t);
   const uint16_t space = circular_buffer_get_write_space_remaining(&s_src.fifo);
+  const int16_t *samples = period;
+
+  if (s_src.stereo) {
+    for (size_t i = 0U; i < PERIOD_FRAMES; i++) {
+      s_src.mono[i] = samples[(i * STEREO_CHANNELS) + SECONDARY_CHANNEL];
+    }
+    samples = s_src.mono;
+  }
 
   if (space < bytes) {
     circular_buffer_consume(&s_src.fifo, bytes - space);
   }
-  (void)circular_buffer_write(&s_src.fifo, period, bytes);
+  (void)circular_buffer_write(&s_src.fifo, samples, bytes);
   (void)pbl_audio_period_ready(audio, period);
 
   if (!s_src.dispatch_pending &&
@@ -145,10 +161,24 @@ static void prv_free_locked(void) {
   s_src.fifo_storage = nullptr;
 }
 
+static void prv_apply_input_locked(void) {
+  struct pbl_audio_caps caps;
+
+  s_src.stereo = false;
+  if (pbl_audio_get_caps(MIC, &caps) != 0) {
+    return;
+  }
+
+  s_src.stereo = s_src.secondary && (caps.max_channels >= STEREO_CHANNELS);
+  (void)pbl_audio_set_gain(MIC, caps.gain_default_mdb + (s_src.gain_offset_db * MDB_PER_DB));
+}
+
 static bool prv_start_locked(void) {
+  prv_apply_input_locked();
+
   struct pbl_audio_stream stream = {
     .rate = MIC_MANAGER_SAMPLE_RATE,
-    .channels = MIC_MANAGER_CHANNELS,
+    .channels = s_src.stereo ? STEREO_CHANNELS : MIC_MANAGER_CHANNELS,
     .period_frames = PERIOD_FRAMES,
     .periods = PERIODS,
     .period_done = prv_period_done,
@@ -215,4 +245,9 @@ void mic_source_stop(void) {
     prv_free_locked();
   }
   pbl_mutex_unlock(&s_src.lock);
+}
+
+void mic_source_set_input(bool secondary, int8_t gain_offset_db) {
+  s_src.secondary = secondary;
+  s_src.gain_offset_db = gain_offset_db;
 }
