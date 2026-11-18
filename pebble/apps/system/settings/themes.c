@@ -17,8 +17,10 @@
 #include <applib/ui/dialogs/expandable_dialog.h>
 #include <applib/ui/menu_layer.h>
 #include <shell/prefs.h>
+#include <shell/system_theme.h>
 
 #define DEFAULT_THEME_HIGHLIGHT_COLOR GColorVividCerulean
+#define INVERT_ENTRY_INDEX            1
 
 typedef struct SettingsThemesData {
   SettingsCallbacks callbacks;
@@ -30,8 +32,9 @@ typedef struct ColorDefinition {
   const GColor color;
 } ColorDefinition;
 
-static const ColorDefinition s_color_definitions[11] = {
+static const ColorDefinition s_color_definitions[12] = {
   {"Default", GColorClear},
+  {"Invert", GColorClear},
   {"Red", GColorSunsetOrange},
   {"Orange", GColorChromeYellow},
   {"Yellow", GColorYellow},
@@ -73,7 +76,20 @@ static int prv_color_to_index(GColor color, GColor default_color) {
 // Unified Accent Color Settings
 /////////////////////////////
 
+static GColor prv_invert_color(void) {
+  return system_theme_get_fg_color();
+}
+
 static void prv_color_menu_select(OptionMenu *option_menu, int selection, void *context) {
+  if (selection == INVERT_ENTRY_INDEX) {
+    shell_prefs_set_theme_highlight_inverted(true);
+    settings_menu_reload_data(SettingsMenuItemThemes);
+    settings_menu_mark_dirty(SettingsMenuItemThemes);
+    app_window_stack_remove(&option_menu->window, true /* animated */);
+    return;
+  }
+
+  shell_prefs_set_theme_highlight_inverted(false);
   GColor color;
   if (selection == 0) {
     /* Default option selected -> restore default color. */
@@ -95,6 +111,11 @@ static void prv_option_menu_selection_will_change(OptionMenu *option_menu, uint1
   if (new_row == old_row) {
     return;
   }
+  if (new_row == INVERT_ENTRY_INDEX) {
+    const GColor color = prv_invert_color();
+    option_menu_set_highlight_colors(option_menu, color, gcolor_legible_over(color));
+    return;
+  }
   GColor color = s_color_definitions[new_row].color;
   if (color.argb != GColorClear.argb) {
     option_menu_set_highlight_colors(option_menu, color, gcolor_legible_over(color));
@@ -106,8 +127,10 @@ static void prv_option_menu_selection_will_change(OptionMenu *option_menu, uint1
 
 static OptionMenu *prv_push_color_menu(void) {
   const char *title = pbl_i18n_noop("Accent Color");
-  int selected =
-      prv_color_to_index(shell_prefs_get_theme_highlight_color(), DEFAULT_THEME_HIGHLIGHT_COLOR);
+  int selected = shell_prefs_get_theme_highlight_inverted()
+                     ? INVERT_ENTRY_INDEX
+                     : prv_color_to_index(shell_prefs_get_theme_highlight_color(),
+                                          DEFAULT_THEME_HIGHLIGHT_COLOR);
   const char **color_names = prv_get_color_names(false);
   const OptionMenuCallbacks callbacks = {
     .select = prv_color_menu_select,
@@ -124,7 +147,10 @@ static OptionMenu *prv_push_color_menu(void) {
       ARRAY_LENGTH(s_color_definitions), true /* icons_enabled */, color_names, nullptr);
 
   if (option_menu) {
-    if (selected == 0) {
+    if (selected == INVERT_ENTRY_INDEX) {
+      const GColor color = prv_invert_color();
+      option_menu_set_highlight_colors(option_menu, color, gcolor_legible_over(color));
+    } else if (selected == 0) {
       option_menu_set_highlight_colors(option_menu, DEFAULT_THEME_HIGHLIGHT_COLOR,
                                        gcolor_legible_over(DEFAULT_THEME_HIGHLIGHT_COLOR));
     } else {
@@ -162,8 +188,10 @@ static void prv_draw_row_cb(SettingsCallbacks *context, GContext *ctx, const Lay
     dark_mode_menu_format_schedule(time_buf, sizeof(time_buf));
     subtitle = time_buf;
   } else {
-    int idx =
-        prv_color_to_index(shell_prefs_get_theme_highlight_color(), DEFAULT_THEME_HIGHLIGHT_COLOR);
+    int idx = shell_prefs_get_theme_highlight_inverted()
+                  ? INVERT_ENTRY_INDEX
+                  : prv_color_to_index(shell_prefs_get_theme_highlight_color(),
+                                       DEFAULT_THEME_HIGHLIGHT_COLOR);
     title = pbl_i18n_noop("Accent Color");
     subtitle = s_color_definitions[idx < 0 ? 0 : idx].name;
   }
