@@ -71,6 +71,9 @@ void mic_source_stop(void) {
   s_handler = nullptr;
 }
 
+void mic_source_set_input(bool secondary, int8_t gain_offset_db) {
+}
+
 static void prv_deliver(int16_t value) {
   cl_assert(s_running);
   for (size_t i = 0; i < s_buffer_len; i++)

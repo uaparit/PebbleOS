@@ -209,3 +209,7 @@ MicManagerAppCheck mic_manager_check_app(PebbleTask task) {
   }
   return MicManagerAppOk;
 }
+
+void mic_manager_set_input(bool secondary, int8_t gain_offset_db) {
+  mic_source_set_input(secondary, gain_offset_db);
+}

@@ -178,6 +178,9 @@ void mic_source_stop(void) {
   s_mic_handler = nullptr;
 }
 
+void mic_source_set_input(bool secondary, int8_t gain_offset_db) {
+}
+
 //! Simulates the driver delivering one chunk of `value`-filled samples on SysWorkq.
 static void prv_deliver_chunk(int16_t value) {
   cl_assert(s_mic_running);

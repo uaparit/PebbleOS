@@ -74,3 +74,8 @@ MicClient mic_manager_get_owner(void);
 
 //! @return true while the mic is owned or reserved, or a dictation session runs
 bool mic_manager_is_busy(void);
+
+//! Picks the microphone and gain used from the next start on.
+//! @param secondary Record the secondary microphone, if the device has two.
+//! @param gain_offset_db Gain relative to the device default, in dB.
+void mic_manager_set_input(bool secondary, int8_t gain_offset_db);

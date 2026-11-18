@@ -44,6 +44,9 @@ void mic_source_stop(void) {
   s_buffer = nullptr;
 }
 
+void mic_source_set_input(bool secondary, int8_t gain_offset_db) {
+}
+
 // Fake banner
 ////////////////////////////////////////////////////////////////
 
