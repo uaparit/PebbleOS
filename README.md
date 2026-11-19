@@ -23,6 +23,8 @@
 > Added on top:
 > - an "Invert" entry in the Accent Color list: highlights follow the text color instead of a
 >   fixed hue, black in light mode and white in Dark Mode
+> - the notification list, its grouped history window and the watchface menu highlight with the
+>   Accent Color too, instead of their own fixed colors
 > - the Settings menu's icons are enabled (existing, otherwise unused firmware feature)
 > - a Bold Subtitles toggle (Settings → Display): bolds menu cell subtitles system-wide, for
 >   readability
